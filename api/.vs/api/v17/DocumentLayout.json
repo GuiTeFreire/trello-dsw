@@ -57,6 +57,10 @@
           "SelectedChildIndex": 8,
           "Children": [
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": ".env",
@@ -66,8 +70,7 @@
               "RelativeToolTip": ".env",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2025-01-03T23:21:20.878Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-03T23:21:20.878Z"
             },
             {
               "$type": "Document",
@@ -79,8 +82,7 @@
               "RelativeToolTip": "src\\routes\\authRoutes.js",
               "ViewState": "AgIAABgAAAAAAAAAAAAAABUAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-01-03T23:17:01.587Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-03T23:17:01.587Z"
             },
             {
               "$type": "Document",
@@ -92,8 +94,7 @@
               "RelativeToolTip": "src\\models\\Card.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-01-03T23:15:45.463Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-03T23:15:45.463Z"
             },
             {
               "$type": "Document",
@@ -105,8 +106,7 @@
               "RelativeToolTip": "src\\models\\Board.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-01-03T23:09:06.291Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-03T23:09:06.291Z"
             },
             {
               "$type": "Document",
@@ -118,12 +118,7 @@
               "RelativeToolTip": "src\\models\\List.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-01-03T20:54:17.71Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "WhenOpened": "2025-01-03T20:54:17.71Z"
             },
             {
               "$type": "Document",
@@ -157,7 +152,7 @@
               "RelativeDocumentMoniker": "src\\routes\\boardRoutes.js",
               "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\routes\\boardRoutes.js",
               "RelativeToolTip": "src\\routes\\boardRoutes.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2025-01-03T21:32:23.42Z",
               "EditorCaption": ""
@@ -172,8 +167,7 @@
               "RelativeToolTip": "src\\server.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-01-03T21:07:51.021Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-03T21:07:51.021Z"
             },
             {
               "$type": "Document",
@@ -185,8 +179,7 @@
               "RelativeToolTip": "src\\app.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-01-03T20:55:38.139Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-03T20:55:38.139Z"
             },
             {
               "$type": "Document",
@@ -198,8 +191,7 @@
               "RelativeToolTip": "src\\routes\\listRoutes.js",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-01-03T20:55:05.761Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-03T20:55:05.761Z"
             }
           ]
         }
