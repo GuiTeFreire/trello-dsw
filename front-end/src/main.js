@@ -4,17 +4,13 @@ import { createVuetify } from 'vuetify';
 import 'vuetify/styles';
 import router from './router';
 
-import { VApp, VMain, VAppBar, VBtn, VToolbarTitle, VSpacer } from 'vuetify/components';
+// Importar todos os componentes necessários do Vuetify
+import * as components from 'vuetify/components';
+import * as directives from 'vuetify/directives';
 
 const vuetify = createVuetify({
-  components: {
-    VApp,
-    VMain,
-    VAppBar,
-    VBtn,
-    VToolbarTitle,
-    VSpacer,
-  },
+  components,
+  directives,
 });
 
 const app = createApp(App);

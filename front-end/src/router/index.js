@@ -3,12 +3,16 @@ import Home from '../views/Home.vue';
 import Boards from '../views/Boards.vue';
 import Board from '../views/Board.vue';
 import Profile from '../views/Profile.vue';
+import Login from '../views/Login.vue';
+import CreateAccount from '../views/CreateAccount.vue';
 
 const routes = [
   { path: '/', name: 'Home', component: Home },
   { path: '/boards', name: 'Boards', component: Boards },
   { path: '/board/:id', name: 'Board', component: Board },
   { path: '/profile', name: 'Profile', component: Profile },
+  { path: '/login', name: 'Login', component: Login }, // Adicionada a rota para login
+  { path: '/create-account', name: 'CreateAccount', component: CreateAccount },
 ];
 
 const router = createRouter({

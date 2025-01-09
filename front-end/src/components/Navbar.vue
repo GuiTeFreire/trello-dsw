@@ -24,6 +24,7 @@ export default {
         { name: 'Home', path: '/' },
         { name: 'Boards', path: '/boards' },
         { name: 'Profile', path: '/profile' },
+        { name: 'Login', path: '/Login'}
       ],
       activePage: 0,
     };
