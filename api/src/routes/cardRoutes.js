@@ -11,6 +11,7 @@ router.get("/", async (req, res) => {
         const cards = await Card.find();
         res.json(cards);
     } catch (err) {
+        console.error("Erro ao buscar os cards:", err);
         res.status(500).json({ error: "Erro ao buscar os cards." });
     }
 });

@@ -61,7 +61,7 @@ Vue.component('deleta-card', {
 
     methods: {
         removeCard: function () {
-            axios.delete(`http://localhost:3000/${this.controlador.itemSelecionado._id}`)
+            axios.delete(`http://localhost:4331/api/cards${this.controlador.itemSelecionado._id}`)
                 .then(response => {
                     this.controlador.lista();
                 })

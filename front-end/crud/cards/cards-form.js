@@ -84,7 +84,7 @@ Vue.component('formulario-card', {
         },
 
         salvaCard: function () {
-            const url = `http://localhost:3000/${this.card._id ? '' : ''}`;
+            const url = `http://localhost:4331/api/cards${this.card._id ? '' : ''}`;
             axios.post(url, this.card)
                 .then(response => {
                     this.errorMessage = '';
