@@ -1,56 +1,12 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-require('dotenv').config();
-const mongoose = require('mongoose');
+import { Router } from 'express';
+import Card from '../models/Card.js';
+import authenticateToken from '../middleware/authenticateToken.js';
 
-const app = express();
-app.use(express.json())
-app.use(cors());
-app.use(bodyParser.json());
+const router = Router();
 
-const port = 3000;
-const dbName = "trello-dsw";
-
-var Card = null;
-var connection = null;
-
-// Conexão com o banco de dados
-async function connect() {
-    if (connection && Card) {
-        return { connection, Card };
-    }
-
-    console.log("Tentando conectar ao banco de dados...");
-    try {
-        connection = await mongoose.connect(
-            "mongodb://127.0.0.1:27017/",
-            {
-                dbName: dbName,
-                useNewUrlParser: true,
-                useUnifiedTopology: true
-            }
-        );
-        console.log(`Conectado ao banco de dados ${dbName}`);
-
-        Card = mongoose.model('Card', {
-            nome: String,
-            usuario: String,
-            descricao: String,
-            quadro: String,
-            coluna: String,
-            dataInicio: Date,
-            dataFim: Date,
-        });
-    } catch (err) {
-        console.error("Erro ao conectar ao banco de dados:", err);
-    }
-    return { connection, Card };
-}
 
 // Rotas iniciais
-app.get("/", async (req, res) => {
-    const { Card } = await connect();
+router.get("/", async (req, res) => {
     try {
         const cards = await Card.find();
         res.json(cards);
@@ -59,8 +15,7 @@ app.get("/", async (req, res) => {
     }
 });
 
-app.get('/:id', async (req, res) => {
-    const { Card } = await connect();
+router.get('/:id', async (req, res) => {
     try {
         const card = await Card.findById(req.params.id);
         if (!card) {
@@ -72,7 +27,7 @@ app.get('/:id', async (req, res) => {
     }
 });
 
-app.post('/', async (req, res) => {
+router.post('/', async (req, res) => {
     var id = req.body._id;
     var nome = req.body.nome;
     var usuario = req.body.usuario;
@@ -91,8 +46,7 @@ app.post('/', async (req, res) => {
     }
 });
 
-app.delete('/:id', async (req, res) => {
-    const { Card } = await connect();
+router.delete('/:id', async (req, res) => {
     try {
         const card = await Card.findById(req.params.id);
         if (!card) {
@@ -120,10 +74,9 @@ function verificaRegrasNegocio(nome, usuario, descricao, quadro, coluna, dataIni
 
 // Funções de criação e atualização do card
 async function criarCard(nome, usuario, descricao, quadro, coluna, dataInicio, dataFim, res) {
-    const { Card } = await connect();
     try {
         const card = new Card({ nome, usuario, descricao, quadro, coluna, dataInicio, dataFim });
-        await card.save();
+        card.save();
         res.json({ message: "O card foi criado.", card });
     } catch (err) {
         res.status(500).json({ error: "Erro ao criar o card." });
@@ -131,9 +84,8 @@ async function criarCard(nome, usuario, descricao, quadro, coluna, dataInicio, d
 }
 
 async function atualizarCard(id, nome, usuario, descricao, quadro, coluna, dataInicio, dataFim, res) {
-    const { Card } = await connect();
     try {
-        const card = await Card.findById(id);
+        const card = Card.findById(id);
         if (!card) {
             return res.status(404).json({ message: "Card não encontrado." });
         }
@@ -144,14 +96,11 @@ async function atualizarCard(id, nome, usuario, descricao, quadro, coluna, dataI
         card.coluna = coluna;
         card.dataInicio = dataInicio;
         card.dataFim = dataFim;
-        await card.save();
+        card.save();
         res.json({ message: "Card atualizado.", card });
     } catch (err) {
         res.status(500).json({ error: "Erro ao atualizar o card." });
     }
 }
 
-app.listen(port, () => {
-    connect();
-    console.log(`Servidor rodando na porta ${port}`);
-});
+export default router;
