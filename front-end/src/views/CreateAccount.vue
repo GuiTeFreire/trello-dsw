@@ -48,7 +48,7 @@
 
 <script>
 import axios from 'axios';
-
+import api from '@/services/api'; // Importa o serviço configurado
 export default {
   name: 'CreateAccount',
   data() {

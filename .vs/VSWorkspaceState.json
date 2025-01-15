@@ -3,10 +3,14 @@
     "",
     "\\api",
     "\\api\\src",
-    "\\api\\src\\middleware",
-    "\\api\\src\\models",
     "\\api\\src\\routes",
-    "\\front-end"
+    "\\front-end",
+    "\\front-end\\crud",
+    "\\front-end\\crud\\utils",
+    "\\front-end\\public",
+    "\\front-end\\src",
+    "\\front-end\\src\\components"
   ],
+  "SelectedNode": "\\api",
   "PreviewInSolutionExplorer": false
 }
