@@ -10,7 +10,6 @@
         @click="openBoard(board._id)"
       >
         <h3>{{ board.title }}</h3>
-        <p>Alguma descrição</p>
       </div>
     </div>
   </div>
@@ -18,18 +17,25 @@
 
 <script>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import api from '@/services/api';
 
 export default {
   name: 'Boards',
   setup() {
     const userBoards = ref([]);
+    const router = useRouter();
 
     // Carregar lista de quadros do usuário
     const loadUserBoards = async () => {
       try {
-        // Exemplo de rota: GET /boards
-        const response = await api.get('/api/boards');
+        const token = localStorage.getItem('token'); 
+        const response = await api.get('/api/boards', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(response.headers);
         userBoards.value = response.data;
       } catch (error) {
         console.error('Erro ao carregar quadros do usuário', error);
@@ -38,11 +44,7 @@ export default {
 
     // Quando clicamos em um card de board, abrimos a view Board.vue daquele board
     const openBoard = (boardId) => {
-      // Se estiver usando Vue Router, podemos usar:
-      // this.$router.push ou useRouter() na Composition API
-      window.location.href = `/board/${boardId}`; 
-      // Ou, com Composition API + vue-router:
-      // router.push({ name: 'Board', params: { id: boardId } });
+      router.push({ name: 'Board', params: { id: boardId } });
     };
 
     onMounted(() => {
