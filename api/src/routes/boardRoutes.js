@@ -4,7 +4,7 @@ import authenticateToken from '../middleware/authenticateToken.js';
 
 const router = Router();
 
-// Aplicar o middleware de autenticação a todas as rotas de boards
+// Aplicar o middleware de autenticaï¿½ï¿½o a todas as rotas de boards
 router.use(authenticateToken);
 
 router.get('/', async (req, res) => {
@@ -20,7 +20,7 @@ router.get('/:id', async (req, res) => {
     try {
         const board = await Board.findById(req.params.id);
         if (!board) {
-            return res.status(404).json({ error: 'Board não encontrado' });
+            return res.status(404).json({ error: 'Board nï¿½o encontrado' });
         }
         return res.json(board);
     } catch (error) {
@@ -31,7 +31,7 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const { title, backgroundColor, textColor, isFavorite } = req.body;
-        const owner = req.user.id;  // Diretamente do usuário autenticado
+        const owner = req.user.id;  // Diretamente do usuï¿½rio autenticado
         const newBoard = await Board.create({
             title,
             backgroundColor,
@@ -39,6 +39,9 @@ router.post('/', async (req, res) => {
             isFavorite,
             owner,
         });
+
+        //talvez chamar criaÃ§Ã£o de permissÃ£o aqui
+
         return res.status(201).json(newBoard);
     } catch (error) {
         res.status(500).json({ error: 'Erro ao criar board' });
@@ -54,7 +57,7 @@ router.put('/:id', async (req, res) => {
             { new: true }
         );
         if (!updatedBoard) {
-            return res.status(404).json({ error: 'Board não encontrado' });
+            return res.status(404).json({ error: 'Board nï¿½o encontrado' });
         }
         return res.json(updatedBoard);
     } catch (error) {
@@ -66,7 +69,7 @@ router.delete('/:id', async (req, res) => {
     try {
         const board = await Board.findByIdAndDelete(req.params.id);
         if (!board) {
-            return res.status(404).json({ error: 'Board não encontrado' });
+            return res.status(404).json({ error: 'Board nï¿½o encontrado' });
         }
         return res.json({ message: 'Board removido com sucesso' });
     } catch (error) {

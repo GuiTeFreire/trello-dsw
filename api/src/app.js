@@ -8,6 +8,7 @@ import cardRoutes from './routes/cardRoutes.js';
 import listRoutes from './routes/listRoutes.js';
 import boardRoutes from './routes/boardRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import BoardPermissions from './models/BoardPermissions.js';
 
 dotenv.config();
 const app = express();
@@ -29,5 +30,6 @@ app.use('/api/lists', listRoutes);
 app.use('/api/boards', authenticateToken, boardRoutes);
 app.use('/api/cards', cardRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/boardsPermissions', authenticateToken, BoardPermissions);
 
 export default app;
