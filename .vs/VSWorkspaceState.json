@@ -3,10 +3,14 @@
     "",
     "\\api",
     "\\api\\src",
+    "\\api\\src\\controllers",
     "\\api\\src\\middleware",
-    "\\api\\src\\models",
-    "\\api\\src\\routes",
-    "\\front-end"
+    "\\front-end",
+    "\\front-end\\crud",
+    "\\front-end\\crud\\utils",
+    "\\front-end\\src",
+    "\\front-end\\src\\services"
   ],
+  "SelectedNode": "\\front-end\\src\\App.vue",
   "PreviewInSolutionExplorer": false
 }
