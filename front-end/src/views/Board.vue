@@ -9,7 +9,7 @@
     <!-- DRAGGABLE: para reordenar as listas -->
     <draggable
       v-model="lists"
-      class="lists-container"
+      class=""
       @end="onDragEnd"
       :options="{ animation: 200 }"
     >

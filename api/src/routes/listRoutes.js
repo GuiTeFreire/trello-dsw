@@ -1,14 +1,13 @@
 import { Router } from 'express';
 const router = Router();
 import List from '../models/List.js';
+import Card from '../models/Card.js';
 
 // 1) Criar lista
 router.post('/', async (req, res) => {
     try {
-        
-        const { title, boardId, position } = req.body;
-        console.log("chegou aqui", title)
-        const list = await List.create({ title, boardId, position });
+        const { title, boardId, position, cards } = req.body;
+        const list = await List.create({ title, boardId, position, cards });
         return res.status(201).json(list);
     } catch (error) {
         return res.status(400).json({ error: 'Erro ao criar lista' });
@@ -19,7 +18,7 @@ router.post('/', async (req, res) => {
 router.get('/board/:boardId', async (req, res) => {
     try {
         const { boardId } = req.params;
-        const lists = await List.find({ boardId }).sort({ position: 1 });
+        const lists = await List.find({ boardId }).sort({ position: 1 }).populate('cards');
         return res.status(200).json(lists);
     } catch (error) {
         return res.status(400).json({ error: 'Erro ao listar listas' });
@@ -30,12 +29,12 @@ router.get('/board/:boardId', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, position } = req.body;
+        const { title, position, cards } = req.body;
         const updated = await List.findByIdAndUpdate(
             id,
-            { title, position },
+            { title, position, cards },
             { new: true }
-        );
+        ).populate('cards');
         return res.status(200).json(updated);
     } catch (error) {
         return res.status(400).json({ error: 'Erro ao atualizar lista' });
@@ -46,7 +45,15 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        await List.findByIdAndDelete(id);
+        const list = await List.findById(id);
+        if (!list) {
+            return res.status(404).json({ error: 'Lista não encontrada' });
+        }
+
+        // Remover os cards associados à lista
+        await Card.deleteMany({ _id: { $in: list.cards } });
+
+        await list.deleteOne();
         return res.status(200).json({ message: 'Lista removida com sucesso' });
     } catch (error) {
         return res.status(400).json({ error: 'Erro ao remover lista' });
