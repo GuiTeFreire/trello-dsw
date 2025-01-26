@@ -1,16 +1,16 @@
-function criaControladorCards() {
+function criaControladorBoards() {
     return {
-        painelLista: null, // Painel de listagem de cards
-        painelFormulario: null, // Painel de formulário para criar/editar cards
-        painelRemocao: null, // Painel de confirmação de remoção de cards
+        painelLista: null, // Painel de listagem de boards
+        painelFormulario: null, // Painel de formulário para criar/editar boards
+        painelRemocao: null, // Painel de confirmação de remoção de boards
 
         apresentandoPainelLista: true, // Define se o painel de lista está ativo
         apresentandoPainelFormulario: false, // Define se o painel de formulário está ativo
         apresentandoPainelRemocao: false, // Define se o painel de remoção está ativo
 
-        itemSelecionado: {}, // Card atualmente selecionado para edição ou remoção
+        itemSelecionado: {}, // Board atualmente selecionado para edição ou remoção
 
-        // Atualiza e exibe o painel de lista de cards
+        // Atualiza e exibe o painel de lista de boards
         lista: function () {
             this.painelLista.atualizaLista();
             this.apresentandoPainelLista = true;
@@ -18,7 +18,7 @@ function criaControladorCards() {
             this.apresentandoPainelRemocao = false;
         },
 
-        // Prepara e exibe o formulário para criar um novo card
+        // Prepara e exibe o formulário para criar um novo board
         insere: function (item) {
             this.itemSelecionado = item;
             this.painelFormulario.prepara();
@@ -27,7 +27,7 @@ function criaControladorCards() {
             this.apresentandoPainelRemocao = false;
         },
 
-        // Prepara e exibe o formulário para editar um card existente
+        // Prepara e exibe o formulário para editar um board existente
         edita: function (item) {
             this.itemSelecionado = item;
             this.painelFormulario.prepara();
@@ -36,7 +36,7 @@ function criaControladorCards() {
             this.apresentandoPainelRemocao = false;
         },
 
-        // Prepara e exibe o painel de remoção para confirmar a exclusão do card
+        // Prepara e exibe o painel de remoção para confirmar a exclusão do board
         remove: function (item) {
             this.itemSelecionado = item;
             this.apresentandoPainelLista = false;
@@ -45,3 +45,5 @@ function criaControladorCards() {
         }
     };
 }
+
+export default criaControladorBoards;

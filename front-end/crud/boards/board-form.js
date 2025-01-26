@@ -1,7 +1,11 @@
-Vue.component('formularioBoard', {
+import { defineComponent } from 'vue';
+import axios from 'axios';
+
+export default defineComponent({
+    name: 'formulario-board',
     props: ['controlador'],
 
-    data: function () {
+    data() {
         return {
             titulo: '',
             errorMessage: '',
@@ -56,13 +60,13 @@ Vue.component('formularioBoard', {
         </div>`,
 
     methods: {
-        prepara: function () {
+        prepara() {
             this.errorMessage = '';
             this.board = { ...this.controlador.itemSelecionado };
             this.titulo = this.board._id === '' ? 'Novo Quadro' : 'Editar Quadro';
         },
 
-        salvaBoard: function () {
+        salvaBoard() {
             const url = this.board._id ? `http://localhost:4331/api/boards/${this.board._id}` : 'http://localhost:4331/api/boards';
             const method = this.board._id ? 'put' : 'post';
             axios[method](url, this.board)
@@ -75,7 +79,7 @@ Vue.component('formularioBoard', {
                 });
         },
 
-        retornaLista: function () {
+        retornaLista() {
             this.controlador.lista();
         }
     }
