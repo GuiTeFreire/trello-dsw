@@ -1,17 +1,17 @@
-<template>
+ï»¿<template>
   <v-container class="d-flex align-center justify-center" style="height: 100vh;">
-    <v-card class="pa-8" max-width="400">
+    <v-card class="pa-8" width="600">
       <v-card-title>
         Criar Conta
       </v-card-title>
       <v-card-subtitle>
-        Preencha as informações abaixo.
+        Preencha as informaÃ§Ãµes abaixo.
       </v-card-subtitle>
       <v-card-text>
         <v-form @submit.prevent="processCreateAccount">
           <v-text-field
             v-model="form.username"
-            label="Nome de Usuário"
+            label="Nome de UsuÃ¡rio"
             :error-messages="usernameError"
             outlined
           />
@@ -39,7 +39,7 @@
       </v-card-text>
       <v-card-actions>
         <router-link to="/login" class="ml-auto">
-          Já tem conta? Faça login
+          JÃ¡ tem conta? FaÃ§a login
         </router-link>
       </v-card-actions>
     </v-card>
@@ -48,7 +48,7 @@
 
 <script>
 import axios from 'axios';
-import api from '@/services/api'; // Importa o serviço configurado
+import api from '@/services/api'; // Importa o serviÃ§o configurado
 export default {
   name: 'CreateAccount',
   data() {
@@ -69,9 +69,9 @@ export default {
       this.passwordError = '';
 
       // Validate inputs
-      if (!this.form.username) this.usernameError = 'O nome de usuário é obrigatório.';
-      if (!this.form.email) this.emailError = 'O e-mail é obrigatório.';
-      if (!this.form.password) this.passwordError = 'A senha é obrigatória.';
+      if (!this.form.username) this.usernameError = 'O nome de usuÃ¡rio Ã© obrigatÃ³rio.';
+      if (!this.form.email) this.emailError = 'O e-mail Ã© obrigatÃ³rio.';
+      if (!this.form.password) this.passwordError = 'A senha Ã© obrigatÃ³ria.';
 
       // Exit if validation failed
       if (this.usernameError || this.emailError || this.passwordError) return;

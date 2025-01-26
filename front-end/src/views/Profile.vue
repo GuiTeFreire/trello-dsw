@@ -85,8 +85,9 @@
 
 <style scoped>
     .caption {
+        margin-top: 8px;
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-start;
         text-decoration: none;
     }
 
