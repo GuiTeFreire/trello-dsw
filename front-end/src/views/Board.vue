@@ -8,13 +8,8 @@
       <button @click="openCardForm">Criar Card</button>
     </div>
 
-    <!-- DRAGGABLE: para reordenar as listas -->
-    <draggable
-      v-model="lists"
-      class="lists-container"
-      @end="onDragEnd"
-      :options="{ animation: 200 }"
-    >
+    <!-- SortableJS: para reordenar as listas -->
+    <div ref="listsContainer" class="lists-container">
       <!-- Cada item do array 'lists' será renderizado com o componente List.vue -->
       <transition-group name="fade" tag="div">
         <template v-for="(list, index) in lists" :key="list._id">
@@ -24,7 +19,7 @@
           />
         </template>
       </transition-group>
-    </draggable>
+    </div>
 
     <!-- Componente de formulário de lista -->
     <formulario-lista
@@ -45,7 +40,7 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import draggable from 'vuedraggable';
+import Sortable from 'sortablejs';
 import List from '@/components/List.vue';
 import api from '@/services/api';
 import formularioLista from '../../crud/lists/list-form.js';
@@ -54,7 +49,7 @@ import criaControlador from '../../crud/utils/crud-controller.js';
 
 export default {
   name: 'Board',
-  components: { draggable, List, formularioLista, formularioCard },
+  components: { List, formularioLista, formularioCard },
   setup() {
     const route = useRoute();
     const boardId = route.params.id;
@@ -63,6 +58,7 @@ export default {
     const showListForm = ref(false);
     const showCardForm = ref(false);
     const controlador = criaControlador();
+    const listsContainer = ref(null);
 
     const loadBoard = async () => {
       try {
@@ -170,6 +166,12 @@ export default {
 
     onMounted(() => {
       loadBoard();
+
+      // Inicializar SortableJS
+      Sortable.create(listsContainer.value, {
+        animation: 200,
+        onEnd: onDragEnd,
+      });
     });
 
     return {
@@ -182,6 +184,7 @@ export default {
       controlador,
       handleListCreated,
       handleCardCreated,
+      listsContainer,
       onDragEnd,
       handleListRemoved,
     };
