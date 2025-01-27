@@ -82,13 +82,14 @@ export default {
     };
 
     const openListForm = () => {
+      console.log('Abrindo formulário de criação de lista'); // Log para depuração
       controlador.painelFormulario = {
         prepara: formularioLista.methods.prepara.bind({
           controlador,
           list: {
             _id: '',
             title: '',
-            boardId: boardId,
+            boardId: boardId, // Certifique-se de que o boardId está sendo atribuído aqui
             position: lists.value.length,
             cards: [],
           },
@@ -97,7 +98,7 @@ export default {
       controlador.insere({
         _id: '',
         title: '',
-        boardId: boardId,
+        boardId: boardId, // Certifique-se de que o boardId está sendo atribuído aqui
         position: lists.value.length,
         cards: [],
       });

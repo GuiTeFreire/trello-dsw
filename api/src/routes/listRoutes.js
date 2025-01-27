@@ -1,6 +1,7 @@
 import { Router } from 'express';
 const router = Router();
 import List from '../models/List.js';
+import Board from '../models/Board.js';
 import Card from '../models/Card.js';
 
 // 1) Criar lista
@@ -8,6 +9,10 @@ router.post('/', async (req, res) => {
     try {
         const { title, boardId, position, cards } = req.body;
         const list = await List.create({ title, boardId, position, cards });
+
+        // Adicionar a lista ao campo lists do board correspondente
+        await Board.findByIdAndUpdate(boardId, { $push: { lists: list._id } });
+
         return res.status(201).json(list);
     } catch (error) {
         return res.status(400).json({ error: 'Erro ao criar lista' });
@@ -52,6 +57,9 @@ router.delete('/:id', async (req, res) => {
 
         // Remover os cards associados à lista
         await Card.deleteMany({ _id: { $in: list.cards } });
+
+        // Remover a lista do campo lists do board correspondente
+        await Board.findByIdAndUpdate(list.boardId, { $pull: { lists: list._id } });
 
         await list.deleteOne();
         return res.status(200).json({ message: 'Lista removida com sucesso' });

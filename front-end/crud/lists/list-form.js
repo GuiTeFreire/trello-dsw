@@ -46,47 +46,44 @@ export default defineComponent({
     `,
 
     methods: {
-        prepara() {
+    prepara(boardId) {
+        this.errorMessage = '';
+        this.titulo = this.list._id === '' ? 'Nova Lista' : 'Editar Lista';
+    },
+
+    retornaParametroURL() {
+        const url = window.location.href;
+        const parts = url.split('/');
+        return parts[parts.length - 1];
+      },
+
+    async salvaLista() {
+        const url = this.list._id ? `http://localhost:4331/api/lists/${this.list._id}` : 'http://localhost:4331/api/lists';
+        const method = this.list._id ? 'put' : 'post';
+        const token = localStorage.getItem('token'); // Obtém o token do localStorage
+        const boardId = this.retornaParametroURL();
+        this.list.boardId = boardId;
+        console.log(this.list);
+
+        try {
+            const response = await axios({
+                method,
+                url,
+                data: this.list,
+                headers: {
+                    Authorization: `Bearer ${token}`, // Passa o token no header
+                },
+            });
+
             this.errorMessage = '';
-            this.list = { ...this.controlador.itemSelecionado };
-            this.titulo = this.list._id === '' ? 'Nova Lista' : 'Editar Lista';
-        },
-
-        async salvaLista() {
-            const url = this.list._id ? `http://localhost:4331/api/lists/${this.list._id}` : 'http://localhost:4331/api/lists';
-            const method = this.list._id ? 'put' : 'post';
-            const token = localStorage.getItem('token'); // Obtém o token do localStorage
-
-            try {
-                const response = await axios({
-                    method,
-                    url,
-                    data: this.list,
-                    headers: {
-                        Authorization: `Bearer ${token}`, // Passa o token no header
-                    },
-                });
-
-                // Se for uma nova lista, adiciona ao board
-                if (!this.list._id) {
-                    const boardResponse = await axios.put(`http://localhost:4331/api/boards/${this.list.boardId}`, {
-                        $push: { lists: response.data._id },
-                    }, {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
-                }
-
-                this.errorMessage = '';
-                this.$emit('listCreated', response.data._id);
-            } catch (error) {
-                this.errorMessage = error.response?.data?.error || 'Erro ao salvar a lista.';
-            }
-        },
-
-        retornaLista() {
-            this.controlador.lista();
+            this.$emit('listCreated', response.data._id);
+        } catch (error) {
+            this.errorMessage = error.response?.data?.error || 'Erro ao salvar a lista.';
         }
+    },
+
+    retornaLista() {
+        this.controlador.lista();
     }
+}
 });

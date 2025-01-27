@@ -60,7 +60,7 @@ export default defineComponent({
             const url = this.board._id ? `http://localhost:4331/api/boards/${this.board._id}` : 'http://localhost:4331/api/boards';
             const method = this.board._id ? 'put' : 'post';
             const token = localStorage.getItem('token'); // Obtém o token do localStorage
-
+            
             try {
                 const response = await axios({
                     method,
