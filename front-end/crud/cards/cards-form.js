@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export default defineComponent({
     name: 'formulario-card',
-    props: ['controlador'],
+    props: ['controlador', 'board'],
 
     data() {
         return {
@@ -19,88 +19,71 @@ export default defineComponent({
                 dataInicio: '',
                 dataFim: ''
             },
-            quadros: ['Quadro 1', 'Quadro 2', 'Quadro 3'], // Exemplos de quadros
-            colunas: ['To Do', 'In Progress', 'Done'] // Exemplos de colunas
+            colunas: this.board.lists.map(list => list.title) // Preenche a lista de colunas com os títulos das listas do board
         };
     },
 
     template: `
-        <div>
-            <v-container>
-                <v-row>
-                    <v-col cols="6">
-                        <h2>{{ titulo }}</h2>
-                    </v-col>
-                    <v-col cols="6" class="text-right">
-                        <v-btn color="primary" class="mb-2" @click="salvaCard">
-                            Salvar
-                        </v-btn>
-                        <v-btn color="outlined" class="mb-2" @click="retornaLista">
-                            Voltar à lista
-                        </v-btn>
-                    </v-col>
-                </v-row>
-            </v-container>
+        <v-card>
+            <v-card-title>
+                <span class="headline">{{ titulo }}</span>
+            </v-card-title>
+            <v-card-text>
+                <v-container>
+                    <v-row>
+                        <v-col cols="12">
+                            <v-alert v-if="errorMessage" type="error">{{ errorMessage }}</v-alert>
 
-            <v-container>
-                <v-row>
-                    <v-col cols="12">
-                        <p class="error" v-show="errorMessage != ''">{{ errorMessage }}</p>
-
-                        <label class="form-label" for="nome">Nome:</label>
-                        <input class="form-input" name="nome" v-model="card.nome" />
-
-                        <label class="form-label" for="usuario">Usuário:</label>
-                        <input class="form-input" name="usuario" v-model="card.usuario" />
-
-                        <label class="form-label" for="descricao">Descrição:</label>
-                        <textarea class="form-input" name="descricao" rows="3" v-model="card.descricao"></textarea>
-
-                        <label class="form-label" for="quadro">Quadro:</label>
-                        <select class="form-input" name="quadro" v-model="card.quadro">
-                            <option v-for="quadro in quadros" :key="quadro" :value="quadro">
-                                {{ quadro }}
-                            </option>
-                        </select>
-
-                        <label class="form-label" for="coluna">Coluna:</label>
-                        <select class="form-input" name="coluna" v-model="card.coluna">
-                            <option v-for="coluna in colunas" :key="coluna" :value="coluna">
-                                {{ coluna }}
-                            </option>
-                        </select>
-
-                        <label class="form-label" for="dataInicio">Data de Início:</label>
-                        <input type="date" class="form-input" name="dataInicio" v-model="card.dataInicio" />
-
-                        <label class="form-label" for="dataFim">Data de Fim:</label>
-                        <input type="date" class="form-input" name="dataFim" v-model="card.dataFim" />
-                    </v-col>
-                </v-row>
-            </v-container>
-        </div>`,
+                            <v-text-field v-model="card.nome" label="Nome" required></v-text-field>
+                            <v-text-field v-model="card.usuario" label="Usuário" required disabled></v-text-field>
+                            <v-textarea v-model="card.descricao" label="Descrição" rows="3"></v-textarea>
+                            <v-select v-model="card.coluna" :items="colunas" label="Coluna" required></v-select>
+                            <v-text-field v-model="card.dataInicio" label="Data de Início" type="date"></v-text-field>
+                            <v-text-field v-model="card.dataFim" label="Data de Fim" type="date"></v-text-field>
+                        </v-col>
+                    </v-row>
+                </v-container>
+            </v-card-text>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="retornaLista">Cancelar</v-btn>
+                <v-btn color="blue darken-1" text @click="salvaCard">Salvar</v-btn>
+            </v-card-actions>
+        </v-card>
+    `,
 
     methods: {
-        prepara() {
+        async prepara() {
             this.errorMessage = '';
             this.card = { ...this.controlador.itemSelecionado };
             this.titulo = this.card._id === '' ? 'Novo Card' : 'Editar Card';
+            this.card.usuario = this.board.owner; // Define o usuário atual
+            this.card.quadro = this.board._id; // Define o quadro atual
         },
 
-        salvaCard() {
-            const url = `http://localhost:4331/api/cards${this.card._id ? '' : ''}`;
-            axios.post(url, this.card)
-                .then(response => {
-                    this.errorMessage = '';
-                    this.controlador.lista();
-                })
-                .catch(error => {
-                    this.errorMessage = error.response?.data?.error || 'Erro ao salvar o card.';
+        async salvaCard() {
+            const url = this.card._id ? `http://localhost:4331/api/cards/${this.card._id}` : 'http://localhost:4331/api/cards';
+            const method = this.card._id ? 'put' : 'post';
+            const token = localStorage.getItem('token'); // Obtém o token do localStorage
+            
+            try {
+                const response = await axios({
+                    method,
+                    url,
+                    data: this.card,
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Passa o token no header
+                    },
                 });
+                this.errorMessage = '';
+                this.$emit('cardCreated', response.data._id);
+            } catch (error) {
+                this.errorMessage = error.response?.data?.error || 'Erro ao salvar o card.';
+            }
         },
 
         retornaLista() {
             this.controlador.lista();
-        }
+        },
     }
 });

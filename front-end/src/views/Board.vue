@@ -25,15 +25,18 @@
     <formulario-lista
       v-if="showListForm"
       :controlador="controlador"
+      :board="board"
       @listCreated="handleListCreated"
     />
 
-    <!-- Componente de formulário de card -->
-    <formulario-card
-      v-if="showCardForm"
-      :controlador="controlador"
-      @cardCreated="handleCardCreated"
-    />
+    <!-- Componente de formulário de card dentro de um modal -->
+    <v-dialog v-model="showCardForm" max-width="600px">
+      <formulario-card
+        :controlador="controlador"
+        :board="board"
+        @cardCreated="handleCardCreated"
+      />
+    </v-dialog>
   </div>
 </template>
 
@@ -53,6 +56,7 @@ export default {
   setup() {
     const route = useRoute();
     const boardId = route.params.id;
+    const board = ref({});
     const boardTitle = ref('');
     const lists = ref([]);
     const showListForm = ref(false);
@@ -68,6 +72,7 @@ export default {
             Authorization: `Bearer ${token}`, // Passa o token no header
           },
         });
+        board.value = boardResponse.data;
         boardTitle.value = boardResponse.data.title;
 
         const listsResponse = await api.get(`/api/lists/board/${boardId}`, {
@@ -109,6 +114,7 @@ export default {
       controlador.painelFormulario = {
         prepara: formularioCard.methods.prepara.bind({
           controlador,
+          board: board.value,
           card: {
             _id: '',
             nome: '',
@@ -176,6 +182,7 @@ export default {
     });
 
     return {
+      board,
       boardTitle,
       lists,
       openListForm,
