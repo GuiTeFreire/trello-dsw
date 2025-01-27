@@ -15,6 +15,7 @@
     <div class="cards-container">
       <div v-for="card in list.cards" :key="card._id" class="card">
         <p>{{ card.nome }}</p>
+        <button @click="deleteCard(card._id)">Excluir Card</button>
       </div>
     </div>
 
@@ -82,6 +83,18 @@ export default {
         this.$emit('listRemoved', listId);
       } catch (error) {
         console.error('Erro ao remover lista:', error);
+      }
+    },
+
+    /**
+     * Remove um card via API e atualiza a lista localmente
+     */
+    async deleteCard(cardId) {
+      try {
+        await api.delete(`/api/cards/${cardId}`);
+        this.list.cards = this.list.cards.filter(card => card._id !== cardId);
+      } catch (error) {
+        console.error('Erro ao remover card:', error);
       }
     },
   },

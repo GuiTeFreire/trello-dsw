@@ -3,10 +3,11 @@
     <h1>{{ boardTitle }}</h1>
     <br>
 
-    <!-- Botões para criar nova lista e novo card -->
+    <!-- Botões para criar nova lista, novo card e excluir o board -->
     <div class="buttons-container">
       <v-btn color="primary" @click="openListForm">Criar Lista</v-btn>
       <v-btn color="primary" @click="openCardForm">Criar Card</v-btn>
+      <v-btn color="error" @click="deleteBoard">Excluir Board</v-btn>
     </div>
 
     <!-- SortableJS: para reordenar as listas -->
@@ -43,7 +44,7 @@
 
 <script>
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import Sortable from 'sortablejs';
 import List from '@/components/List.vue';
 import api from '@/services/api';
@@ -56,6 +57,7 @@ export default {
   components: { List, formularioLista, formularioCard },
   setup() {
     const route = useRoute();
+    const router = useRouter();
     const boardId = route.params.id;
     const board = ref({});
     const boardTitle = ref('');
@@ -172,6 +174,20 @@ export default {
       lists.value = lists.value.filter(list => list._id !== listId);
     };
 
+    const deleteBoard = async () => {
+      try {
+        const token = localStorage.getItem('token'); // Obtém o token do localStorage
+        await api.delete(`/api/boards/${boardId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Passa o token no header
+          },
+        });
+        router.push('/boards'); // Redireciona para a lista de boards após a exclusão
+      } catch (error) {
+        console.error('Erro ao excluir o board:', error);
+      }
+    };
+
     onMounted(() => {
       loadBoard();
 
@@ -196,6 +212,7 @@ export default {
       listsContainer,
       onDragEnd,
       handleListRemoved,
+      deleteBoard,
     };
   },
 };
