@@ -1,16 +1,15 @@
-function criaControladorBoards() {
+function criaControlador() {
     return {
-        painelLista: null, // Painel de listagem de boards
-        painelFormulario: null, // Painel de formulário para criar/editar boards
-        painelRemocao: null, // Painel de confirmação de remoção de boards
+        painelLista: null,
+        painelFormulario: null,
+        painelRemocao: null,
 
-        apresentandoPainelLista: true, // Define se o painel de lista está ativo
-        apresentandoPainelFormulario: false, // Define se o painel de formulário está ativo
-        apresentandoPainelRemocao: false, // Define se o painel de remoção está ativo
+        apresentandoPainelLista: true,
+        apresentandoPainelFormulario: false,
+        apresentandoPainelRemocao: false,
 
-        itemSelecionado: {}, // Board atualmente selecionado para edição ou remoção
+        itemSelecionado: {},
 
-        // Atualiza e exibe o painel de lista de boards
         lista: function () {
             this.painelLista.atualizaLista();
             this.apresentandoPainelLista = true;
@@ -18,7 +17,6 @@ function criaControladorBoards() {
             this.apresentandoPainelRemocao = false;
         },
 
-        // Prepara e exibe o formulário para criar um novo board
         insere: function (item) {
             this.itemSelecionado = item;
             this.painelFormulario.prepara();
@@ -27,7 +25,6 @@ function criaControladorBoards() {
             this.apresentandoPainelRemocao = false;
         },
 
-        // Prepara e exibe o formulário para editar um board existente
         edita: function (item) {
             this.itemSelecionado = item;
             this.painelFormulario.prepara();
@@ -36,7 +33,6 @@ function criaControladorBoards() {
             this.apresentandoPainelRemocao = false;
         },
 
-        // Prepara e exibe o painel de remoção para confirmar a exclusão do board
         remove: function (item) {
             this.itemSelecionado = item;
             this.apresentandoPainelLista = false;
@@ -46,4 +42,4 @@ function criaControladorBoards() {
     };
 }
 
-export default criaControladorBoards;
+export default criaControlador;

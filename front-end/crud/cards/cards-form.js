@@ -1,7 +1,11 @@
-Vue.component('formulario-card', {
+import { defineComponent } from 'vue';
+import axios from 'axios';
+
+export default defineComponent({
+    name: 'formulario-card',
     props: ['controlador'],
 
-    data: function () {
+    data() {
         return {
             titulo: '',
             errorMessage: '',
@@ -77,13 +81,13 @@ Vue.component('formulario-card', {
         </div>`,
 
     methods: {
-        prepara: function () {
+        prepara() {
             this.errorMessage = '';
             this.card = { ...this.controlador.itemSelecionado };
             this.titulo = this.card._id === '' ? 'Novo Card' : 'Editar Card';
         },
 
-        salvaCard: function () {
+        salvaCard() {
             const url = `http://localhost:4331/api/cards${this.card._id ? '' : ''}`;
             axios.post(url, this.card)
                 .then(response => {
@@ -95,7 +99,7 @@ Vue.component('formulario-card', {
                 });
         },
 
-        retornaLista: function () {
+        retornaLista() {
             this.controlador.lista();
         }
     }

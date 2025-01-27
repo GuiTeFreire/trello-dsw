@@ -30,7 +30,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '@/services/api';
 import formularioBoard from '../../crud/boards/board-form.js'; // Importa o componente de formulário de board
-import criaControladorBoards from '../../crud/utils/crud-controller.js'; // Importa o controlador de boards
+import criaControlador from '../../crud/utils/crud-controller.js'; // Importa o controlador de boards
 
 export default {
   name: 'Boards',
@@ -39,7 +39,7 @@ export default {
     const userBoards = ref([]);
     const router = useRouter();
     const showBoardForm = ref(false); // Controle de exibição do formulário de board
-    const controlador = criaControladorBoards(); // Cria o controlador de boards
+    const controlador = criaControlador(); // Cria o controlador de boards
 
     // Carregar lista de quadros do usuário
     const loadUserBoards = async () => {
@@ -63,6 +63,20 @@ export default {
 
     // Abre o formulário de criação de quadro
     const openBoardForm = () => {
+      console.log('Abrindo formulário de criação de quadro'); // Log para depuração
+      controlador.painelFormulario = {
+        prepara: formularioBoard.methods.prepara.bind({
+          controlador,
+          board: {
+            _id: '',
+            title: '',
+            backgroundColor: '',
+            textColor: '',
+            isFavorite: false,
+            lists: [],
+          },
+        }),
+      };
       controlador.insere({
         _id: '',
         title: '',
