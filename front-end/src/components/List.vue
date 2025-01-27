@@ -1,22 +1,29 @@
 <template>
-    <div class="list">
-      <h3 @dblclick="editMode = true">
-        <!-- Exibe o título da lista ou o input de edição -->
-        <span v-if="!editMode">{{ list.title }}</span>
-        <input
-          v-else
-          v-model="tempTitle"
-          @keyup.enter="saveTitle"
-          @blur="saveTitle"
-        />
-      </h3>
-  
-      <!-- Botão para remover a lista -->
-      <button @click="removeList">Remover Lista</button>
+  <div class="list">
+    <h3 @dblclick="editMode = true">
+      <!-- Exibe o título da lista ou o input de edição -->
+      <span v-if="!editMode">{{ list.title }}</span>
+      <input
+        v-else
+        v-model="tempTitle"
+        @keyup.enter="saveTitle"
+        @blur="saveTitle"
+      />
+    </h3>
+
+    <!-- Exibir os cards da lista -->
+    <div class="cards-container">
+      <div v-for="card in list.cards" :key="card._id" class="card">
+        <p>{{ card.nome }}</p>
+      </div>
     </div>
-  </template>
-  
-  <script>
+
+    <!-- Botão para remover a lista -->
+    <button @click="removeList">Remover Lista</button>
+  </div>
+</template>
+
+<script>
 import api from '@/services/api'; // Importando a instância configurada do Axios
 
 export default {
@@ -48,7 +55,7 @@ export default {
       // Se o título mudou, faz a chamada à API
       if (newTitle !== '' && newTitle !== this.list.title) {
         try {
-          const response = await api.put(`/lists/${this.list._id}`, {
+          const response = await api.put(`/api/lists/${this.list._id}`, {
             title: newTitle,
           });
           // Atualiza o título localmente
@@ -83,11 +90,12 @@ export default {
 
 <style scoped>
 .list {
-  width: 250px;
-  min-height: 120px;
-  background: #f0f0f0;
+  background-color: #f4f5f7;
+  border-radius: 3px;
+  width: 272px;
   padding: 8px;
-  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
 }
 
 .list h3 {
@@ -98,5 +106,22 @@ export default {
 .list input {
   width: 90%;
 }
+
+.cards-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(9,30,66,.25);
+  margin-bottom: 8px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.card:hover {
+  background-color: #f0f0f0;
+}
 </style>
-  

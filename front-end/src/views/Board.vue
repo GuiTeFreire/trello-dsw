@@ -1,17 +1,18 @@
 <template>
   <div class="board">
     <h1>{{ boardTitle }}</h1>
+    <br>
 
     <!-- Botões para criar nova lista e novo card -->
     <div class="buttons-container">
-      <button @click="openListForm">Criar Lista</button>
-      <button @click="openCardForm">Criar Card</button>
+      <v-btn color="primary" @click="openListForm">Criar Lista</v-btn>
+      <v-btn color="primary" @click="openCardForm">Criar Card</v-btn>
     </div>
 
     <!-- SortableJS: para reordenar as listas -->
     <div ref="listsContainer" class="lists-container">
       <!-- Cada item do array 'lists' será renderizado com o componente List.vue -->
-      <transition-group name="fade" tag="div">
+      <transition-group name="fade" tag="div" class="lists-wrapper">
         <template v-for="(list, index) in lists" :key="list._id">
           <List
             :list="list"
@@ -208,17 +209,45 @@ export default {
 }
 
 .buttons-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
   margin-bottom: 16px;
-}
-
-.buttons-container button {
-  margin-right: 8px;
 }
 
 .lists-container {
   display: flex;
-  flex-direction: row;
+  overflow-x: auto;
+  padding-bottom: 16px;
+}
+
+.lists-wrapper {
+  display: flex;
   gap: 16px;
+}
+
+.list {
+  background-color: #f4f5f7;
+  border-radius: 3px;
+  width: 272px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(9,30,66,.25);
+  margin-bottom: 8px;
+  padding: 16px; /* Aumentar o padding para tornar o card mais quadrado */
+  width: 240px; /* Definir uma largura fixa */
+  height: 240px; /* Definir uma altura fixa */
+  cursor: pointer;
+}
+
+.card:hover {
+  background-color: #f0f0f0;
 }
 
 .fade-enter-active, .fade-leave-active {
