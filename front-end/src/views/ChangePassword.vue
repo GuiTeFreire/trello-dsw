@@ -1,4 +1,4 @@
-<template>
+Ôªø<template>
     <v-container class="d-flex align-center justify-center" style="height: 100vh;">
         <v-card class="pa-8" max-width="400">
             <v-card-title>Alterar Senha</v-card-title>
@@ -51,7 +51,7 @@ export default {
                 }
 
                 try {
-                    const token = localStorage.getItem("token"); // Certifique-se de que o token est· armazenado
+                    const token = localStorage.getItem("token"); // Certifique-se de que o token est√° armazenado
                     const response = await axios.post(
                         "/api/auth/change-password",
                         {
@@ -60,7 +60,7 @@ export default {
                         },
                         {
                             headers: {
-                                Authorization: `Bearer ${token}`, // Inclua o token no cabeÁalho
+                                Authorization: `Bearer ${token}`, // Inclua o token no cabe√ßalho
                             },
                         }
                     );

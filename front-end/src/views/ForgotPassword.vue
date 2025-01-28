@@ -1,4 +1,4 @@
-<template>
+Ôªø<template>
     <v-container class="d-flex align-center justify-center" style="height: 100vh;">
         <v-card class="pa-8" max-width="400">
             <v-card-title>Esqueci minha senha</v-card-title>
@@ -37,14 +37,14 @@ export default {
     async requestPasswordReset() {
       this.emailError = "";
       if (!this.email) {
-        this.emailError = "O e-mail È obrigatÛrio.";
+        this.emailError = "O e-mail √© obrigat√≥rio.";
         return;
       }
       try {
         const response = await axios.post("/api/auth/forgot-password", { email: this.email });
-        this.message = response.data.message || "Se um usu·rio com este e-mail existir, um link ser· enviado.";
+        this.message = response.data.message || "Se um usu√°rio com este e-mail existir, um link ser√° enviado.";
       } catch (error) {
-        this.message = "Erro ao solicitar redefiniÁ„o de senha.";
+        this.message = "Erro ao solicitar redefini√ß√£o de senha.";
       }
     },
   },

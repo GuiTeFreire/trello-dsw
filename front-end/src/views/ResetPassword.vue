@@ -1,4 +1,4 @@
-<template>
+Ôªø<template>
     <v-container class="d-flex align-center justify-center" style="height: 100vh;">
         <v-card class="pa-8" max-width="400">
             <v-card-title>Redefinir Senha</v-card-title>
@@ -45,8 +45,8 @@ export default {
       this.passwordError = "";
       this.confirmPasswordError = "";
 
-      if (!this.password) this.passwordError = "A senha È obrigatÛria.";
-      if (this.password !== this.confirmPassword) this.confirmPasswordError = "As senhas n„o coincidem.";
+      if (!this.password) this.passwordError = "A senha √© obrigat√≥ria.";
+      if (this.password !== this.confirmPassword) this.confirmPasswordError = "As senhas n√£o coincidem.";
 
       if (this.passwordError || this.confirmPasswordError) return;
 

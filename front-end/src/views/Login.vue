@@ -1,8 +1,8 @@
-<template>
+﻿<template>
     <v-container class="d-flex align-center justify-center" style="height: 100vh;">
-        <v-card class="pa-8" max-width="400">
+        <v-card class="pa-8" width="600">
             <v-card-title>Login</v-card-title>
-            <v-card-subtitle>Entre com suas credenciais para acessar sua conta.</v-card-subtitle>
+            <v-card-subtitle>Entre com suas credenciais para acessar.</v-card-subtitle>
             <v-card-text>
                 <v-form @submit.prevent="processLogin">
                     <v-text-field v-model="form.email"
@@ -33,7 +33,7 @@
 
 <script>
     import axios from "axios";
-    import api from '@/services/api'; // Importa o servi�o configurado
+    import api from '@/services/api'; // Importa o serviço configurado
 
 export default {
   name: "Login",
@@ -51,8 +51,8 @@ export default {
       this.emailError = "";
       this.passwordError = "";
 
-      if (!this.form.email) this.emailError = "O e-mail � obrigat�rio.";
-      if (!this.form.password) this.passwordError = "A senha � obrigat�ria.";
+      if (!this.form.email) this.emailError = "O e-mail é obrigatório.";
+      if (!this.form.password) this.passwordError = "A senha é obrigatória.";
 
       if (this.emailError || this.passwordError) return;
 
@@ -71,7 +71,23 @@ export default {
 </script>
 
 <style scoped>
+     .v-btn {
+         transition: all 0.3s ease; /* Suaviza a transição de estados do botão */
+     }
+
+     .v-btn:hover {
+         transform: translateY(-2px); /* Efeito de levitação ao passar o mouse */
+         box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* Sombra mais intensa ao hover */
+     }
     .mt-2 {
         margin-top: 8px;
+        text-decoration: none;
+        color: #1976D2;
+        font-size: 0.875rem;
+        font-weight: 500; 
+    }
+
+    .mt-2:hover {
+        text-decoration: underline;
     }
 </style>
