@@ -21,7 +21,7 @@ router.get('/:boardId', async (req, res) => {
 // Adicionar uma permissão
 router.post('/:boardId', async (req, res) => {
     try {
-        const { userId, canEdit } = req.body;
+        const { email, canEdit } = req.body;
         const board = await Board.findById(req.params.boardId);
 
         // Verificar se o quadro existe
@@ -34,9 +34,15 @@ router.post('/:boardId', async (req, res) => {
             return res.status(403).json({ error: 'Você não tem permissão para compartilhar este quadro.' });
         }
 
+        // Buscar o usuário pelo email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ error: 'Usuário não encontrado.' });
+        }
+
         // Criar ou atualizar a permissão
         const permission = await BoardPermissions.findOneAndUpdate(
-            { board: req.params.boardId, user: userId },
+            { board: req.params.boardId, user: user._id },
             { canEdit },
             { upsert: true, new: true }
         );

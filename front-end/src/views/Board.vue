@@ -3,11 +3,12 @@
     <h1>{{ boardTitle }}</h1>
     <br>
 
-    <!-- Botões para criar nova lista, novo card e excluir o board -->
+    <!-- Botões para criar nova lista, novo card, excluir o board e compartilhar o board -->
     <div class="buttons-container">
       <v-btn color="primary" @click="openListForm">Criar Lista</v-btn>
       <v-btn color="primary" @click="openCardForm">Criar Card</v-btn>
       <v-btn color="error" @click="deleteBoard">Excluir Board</v-btn>
+      <v-btn color="primary" @click="openShareDialog">Compartilhar Board</v-btn>
     </div>
 
     <!-- SortableJS: para reordenar as listas -->
@@ -39,6 +40,13 @@
         @cardCreated="handleCardCreated"
       />
     </v-dialog>
+
+    <!-- Componente de compartilhamento de quadro -->
+    <share-board
+      :boardId="boardId"
+      :showDialog.sync="showShareDialog"
+      @shared="handleBoardShared"
+    />
   </div>
 </template>
 
@@ -51,10 +59,11 @@ import api from '@/services/api';
 import formularioLista from '../../crud/lists/list-form.js';
 import formularioCard from '../../crud/cards/cards-form.js';
 import criaControlador from '../../crud/utils/crud-controller.js';
+import ShareBoard from '@/components/ShareBoard.vue';
 
 export default {
   name: 'Board',
-  components: { List, formularioLista, formularioCard },
+  components: { List, formularioLista, formularioCard, ShareBoard },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -64,6 +73,7 @@ export default {
     const lists = ref([]);
     const showListForm = ref(false);
     const showCardForm = ref(false);
+    const showShareDialog = ref(false);
     const controlador = criaControlador();
     const listsContainer = ref(null);
 
@@ -188,6 +198,14 @@ export default {
       }
     };
 
+    const openShareDialog = () => {
+      showShareDialog.value = true;
+    };
+
+    const handleBoardShared = (sharedData) => {
+      console.log('Quadro compartilhado com sucesso:', sharedData);
+    };
+
     onMounted(() => {
       loadBoard();
 
@@ -206,6 +224,7 @@ export default {
       openCardForm,
       showListForm,
       showCardForm,
+      showShareDialog,
       controlador,
       handleListCreated,
       handleCardCreated,
@@ -213,6 +232,8 @@ export default {
       onDragEnd,
       handleListRemoved,
       deleteBoard,
+      openShareDialog,
+      handleBoardShared,
     };
   },
 };
