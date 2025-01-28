@@ -5,9 +5,10 @@
 
     <!-- Botões para criar nova lista, novo card e excluir o board -->
     <div class="buttons-container">
-      <v-btn color="primary" @click="openListForm">Criar Lista</v-btn>
-      <v-btn color="primary" @click="openCardForm">Criar Card</v-btn>
-      <v-btn color="error" @click="deleteBoard">Excluir Board</v-btn>
+        <v-btn color="primary" @click="openListForm">Criar Lista</v-btn>
+        <v-btn color="primary" @click="openCardForm">Criar Card</v-btn>
+        <v-btn color="secondary" @click="openEditBoardForm">Editar Board</v-btn>
+        <v-btn color="error" @click="deleteBoard">Excluir Board</v-btn>
     </div>
 
     <!-- SortableJS: para reordenar as listas -->
@@ -16,7 +17,8 @@
       <transition-group name="fade" tag="div" class="lists-wrapper">
         <template v-for="(list, index) in lists" :key="list._id">
           <List
-            :list="list"
+            :list="list" 
+            :boardId="board._id"
             @listRemoved="handleListRemoved"
           />
         </template>
@@ -29,6 +31,7 @@
       :controlador="controlador"
       :board="board"
       @listCreated="handleListCreated"
+      @close="showListForm = false"
     />
 
     <!-- Componente de formulário de card dentro de um modal -->
@@ -37,6 +40,18 @@
         :controlador="controlador"
         :board="board"
         @cardCreated="handleCardCreated"
+        @close="showCardForm = false"
+        
+      />
+    </v-dialog>
+
+    <!-- Modal para formulário de edição do board -->
+    <v-dialog v-model="showEditBoardForm" max-width="600px">
+      <board-edit-form
+        :controlador="controlador"
+        :board="board"
+        @boardUpdated="handleBoardUpdated"
+        @close="showEditBoardForm = false"
       />
     </v-dialog>
   </div>
@@ -51,10 +66,11 @@ import api from '@/services/api';
 import formularioLista from '../../crud/lists/list-form.js';
 import formularioCard from '../../crud/cards/cards-form.js';
 import criaControlador from '../../crud/utils/crud-controller.js';
+import BoardEditForm from '../../crud/boards/board-edit-form.js';
 
 export default {
   name: 'Board',
-  components: { List, formularioLista, formularioCard },
+  components: { List, formularioLista, formularioCard, BoardEditForm },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -66,6 +82,17 @@ export default {
     const showCardForm = ref(false);
     const controlador = criaControlador();
     const listsContainer = ref(null);
+    const showEditBoardForm = ref(false);
+
+    const openEditBoardForm = () => {
+      showEditBoardForm.value = true;
+    };
+
+    const handleBoardUpdated = (updatedBoard) => {
+      board.value = updatedBoard;
+      boardTitle.value = updatedBoard.title;
+      showEditBoardForm.value = false;
+    };
 
     const loadBoard = async () => {
       try {
@@ -213,6 +240,9 @@ export default {
       onDragEnd,
       handleListRemoved,
       deleteBoard,
+      showEditBoardForm,
+      openEditBoardForm,
+      handleBoardUpdated,
     };
   },
 };

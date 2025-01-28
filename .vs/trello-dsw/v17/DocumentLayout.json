@@ -3,12 +3,72 @@
   "WorkspaceRootPath": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\CreateAccount.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\views\\CreateAccount.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Board.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\views\\Board.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Boards.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\views\\Boards.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\crud\\boards\\board-form.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\crud\\boards\\board-form.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\components\\List.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\components\\List.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Login.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\views\\Login.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\ResetPassword.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\views\\ResetPassword.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:api\\src\\app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\ForgotPassword.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\views\\ForgotPassword.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\ChangePassword.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\views\\ChangePassword.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\routes\\authRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:api\\src\\routes\\authRoutes.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\vite.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\vite.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\db.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:api\\src\\db.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\server.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:api\\src\\server.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Profile.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\views\\Profile.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Home.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\views\\Home.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\CreateAccount.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\views\\CreateAccount.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\App.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -17,10 +77,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\main.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\main.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Login.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:front-end\\src\\views\\Login.vue||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,8 +86,47 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 12,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "board-form.js",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\crud\\boards\\board-form.js",
+              "RelativeDocumentMoniker": "front-end\\crud\\boards\\board-form.js",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\crud\\boards\\board-form.js",
+              "RelativeToolTip": "front-end\\crud\\boards\\board-form.js",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACwAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-01-28T01:56:55.726Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "List.vue",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\components\\List.vue",
+              "RelativeDocumentMoniker": "front-end\\src\\components\\List.vue",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\components\\List.vue",
+              "RelativeToolTip": "front-end\\src\\components\\List.vue",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2025-01-28T01:51:46.592Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "app.js",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\app.js",
+              "RelativeDocumentMoniker": "api\\src\\app.js",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\app.js",
+              "RelativeToolTip": "api\\src\\app.js",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAABMAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-01-28T01:21:38.164Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -41,55 +136,24 @@
               "Name": "ST:130:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "App.vue",
-              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\App.vue",
-              "RelativeDocumentMoniker": "front-end\\src\\App.vue",
-              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\App.vue",
-              "RelativeToolTip": "front-end\\src\\App.vue",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
-              "WhenOpened": "2025-01-26T20:43:03.743Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "main.js",
-              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\main.js",
-              "RelativeDocumentMoniker": "front-end\\src\\main.js",
-              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\main.js",
-              "RelativeToolTip": "front-end\\src\\main.js",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-01-26T20:43:00.12Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CreateAccount.vue",
-              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\CreateAccount.vue",
-              "RelativeDocumentMoniker": "front-end\\src\\views\\CreateAccount.vue",
-              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\CreateAccount.vue",
-              "RelativeToolTip": "front-end\\src\\views\\CreateAccount.vue",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAAAFUAAAAHAAAAAAAAAA==",
+              "DocumentIndex": 8,
+              "Title": "ChangePassword.vue",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\ChangePassword.vue",
+              "RelativeDocumentMoniker": "front-end\\src\\views\\ChangePassword.vue",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\ChangePassword.vue",
+              "RelativeToolTip": "front-end\\src\\views\\ChangePassword.vue",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
-              "WhenOpened": "2025-01-26T20:38:26.947Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Profile.vue",
-              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Profile.vue",
-              "RelativeDocumentMoniker": "front-end\\src\\views\\Profile.vue",
-              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Profile.vue",
-              "RelativeToolTip": "front-end\\src\\views\\Profile.vue",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAAAHMAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
-              "WhenOpened": "2025-01-26T17:19:32.202Z",
+              "WhenOpened": "2025-01-26T22:24:16.78Z",
               "EditorCaption": ""
             },
             {
@@ -100,10 +164,186 @@
               "RelativeDocumentMoniker": "front-end\\src\\views\\Login.vue",
               "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Login.vue",
               "RelativeToolTip": "front-end\\src\\views\\Login.vue",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
               "WhenOpened": "2025-01-26T16:20:01.631Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ForgotPassword.vue",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\ForgotPassword.vue",
+              "RelativeDocumentMoniker": "front-end\\src\\views\\ForgotPassword.vue",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\ForgotPassword.vue",
+              "RelativeToolTip": "front-end\\src\\views\\ForgotPassword.vue",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2025-01-26T22:24:35.345Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ResetPassword.vue",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\ResetPassword.vue",
+              "RelativeDocumentMoniker": "front-end\\src\\views\\ResetPassword.vue",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\ResetPassword.vue",
+              "RelativeToolTip": "front-end\\src\\views\\ResetPassword.vue",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2025-01-26T22:25:49.494Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Boards.vue",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Boards.vue",
+              "RelativeDocumentMoniker": "front-end\\src\\views\\Boards.vue",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Boards.vue",
+              "RelativeToolTip": "front-end\\src\\views\\Boards.vue",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABMAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2025-01-26T22:26:18.034Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Board.vue",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Board.vue",
+              "RelativeDocumentMoniker": "front-end\\src\\views\\Board.vue",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Board.vue",
+              "RelativeToolTip": "front-end\\src\\views\\Board.vue",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAgAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2025-01-26T22:26:07.023Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "authRoutes.js",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\routes\\authRoutes.js",
+              "RelativeDocumentMoniker": "api\\src\\routes\\authRoutes.js",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\routes\\authRoutes.js",
+              "RelativeToolTip": "api\\src\\routes\\authRoutes.js",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAF8AAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-01-28T01:12:51.56Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "vite.config.js",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\vite.config.js",
+              "RelativeDocumentMoniker": "front-end\\vite.config.js",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\vite.config.js",
+              "RelativeToolTip": "front-end\\vite.config.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-01-28T01:19:11.26Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "db.js",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\db.js",
+              "RelativeDocumentMoniker": "api\\src\\db.js",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\db.js",
+              "RelativeToolTip": "api\\src\\db.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-01-28T01:21:54.245Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "server.js",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\server.js",
+              "RelativeDocumentMoniker": "api\\src\\server.js",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\api\\src\\server.js",
+              "RelativeToolTip": "api\\src\\server.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-01-28T01:21:50.532Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Home.vue",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Home.vue",
+              "RelativeDocumentMoniker": "front-end\\src\\views\\Home.vue",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Home.vue",
+              "RelativeToolTip": "front-end\\src\\views\\Home.vue",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2025-01-26T22:25:04.952Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "index.html",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\index.html",
+              "RelativeDocumentMoniker": "front-end\\index.html",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\index.html",
+              "RelativeToolTip": "front-end\\index.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-01-26T22:20:54.168Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "App.vue",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\App.vue",
+              "RelativeDocumentMoniker": "front-end\\src\\App.vue",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\App.vue",
+              "RelativeToolTip": "front-end\\src\\App.vue",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2025-01-26T20:43:03.743Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "main.js",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\main.js",
+              "RelativeDocumentMoniker": "front-end\\src\\main.js",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\main.js",
+              "RelativeToolTip": "front-end\\src\\main.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-01-26T20:43:00.12Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "CreateAccount.vue",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\CreateAccount.vue",
+              "RelativeDocumentMoniker": "front-end\\src\\views\\CreateAccount.vue",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\CreateAccount.vue",
+              "RelativeToolTip": "front-end\\src\\views\\CreateAccount.vue",
+              "ViewState": "AgIAAEIAAAAAAAAAAAAAAFUAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2025-01-26T20:38:26.947Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Profile.vue",
+              "DocumentMoniker": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Profile.vue",
+              "RelativeDocumentMoniker": "front-end\\src\\views\\Profile.vue",
+              "ToolTip": "C:\\Users\\guite\\OneDrive\\Documentos\\Faculdade\\7o Per\u00EDodo\\DSW - Marcio\\trello-dsw\\front-end\\src\\views\\Profile.vue",
+              "RelativeToolTip": "front-end\\src\\views\\Profile.vue",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAAAHMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003491|",
+              "WhenOpened": "2025-01-26T17:19:32.202Z"
             }
           ]
         }

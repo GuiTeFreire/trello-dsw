@@ -16,7 +16,9 @@ const app = express();
 const port = process.env.PORT || 4331;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173'
+}));
 app.use(bodyParser.json());
 
 mongoose.connect('mongodb://127.0.0.1:27017/trello-dsw', {

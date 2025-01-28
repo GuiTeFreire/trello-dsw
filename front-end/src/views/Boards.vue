@@ -1,28 +1,31 @@
 <template>
-  <div class="boards">
-    <h1>Meus Quadros</h1>
+    <v-container>
+        <v-row>
+            <v-col cols="12">
+                <h1 class="display-1">Meus Quadros</h1>
+                <v-btn color="primary" dark large class="mb-5" @click="openBoardForm">
+                    Criar novo quadro
+                </v-btn>
+            </v-col>
+        </v-row>
 
-    <!-- Botão para criar novo quadro -->
-    <button @click="openBoardForm">Criar novo quadro</button>
+        <v-row>
+            <v-col v-for="(board, index) in userBoards"
+                   :key="board._id"
+                   cols="12" sm="6" md="4" lg="3">
+                <v-card class="ma-3 elevation-5"
+                        @click="openBoard(board._id)">
+                    <v-card-title class="headline">{{ board.title }}</v-card-title>
+                </v-card>
+            </v-col>
+        </v-row>
 
-    <div class="boards-container">
-      <div
-        class="board-card"
-        v-for="(board, index) in userBoards"
-        :key="board._id"
-        @click="openBoard(board._id)"
-      >
-        <h3>{{ board.title }}</h3>
-      </div>
-    </div>
-
-    <!-- Componente de formulário de quadro -->
-    <formulario-board
-      v-if="showBoardForm"
-      :controlador="controlador"
-      @boardCreated="handleBoardCreated"
-    />
-  </div>
+        <v-dialog v-model="showBoardForm" max-width="600px">
+            <formulario-board :controlador="controlador"
+                              @boardCreated="handleBoardCreated"
+                              @close="showBoardForm = false" />
+        </v-dialog>
+    </v-container>
 </template>
 
 <script>
@@ -111,25 +114,14 @@ export default {
 </script>
 
 <style scoped>
-.boards {
-  padding: 16px;
-}
+    .headline {
+        font-size: 1.25rem; /* Ajusta o tamanho da fonte para os títulos dos cards */
+        font-weight: bold; /* Torna o título do card mais destacado */
+    }
 
-.boards-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.board-card {
-  width: 200px;
-  height: 120px;
-  background-color: #ddd;
-  cursor: pointer;
-  border-radius: 8px;
-  padding: 8px;
-}
-.board-card:hover {
-  background-color: #ccc;
-}
+    .display-1 {
+        font-size: 2.5rem; /* Aumenta o tamanho da fonte para o título principal */
+        font-weight: bold; /* Aumenta a espessura da fonte para maior destaque */
+        margin-bottom: 20px; /* Adiciona espaço abaixo do título para separação visual */
+    }
 </style>

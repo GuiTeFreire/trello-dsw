@@ -2,10 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\api\\src",
-    "\\api\\src\\controllers",
-    "\\api\\src\\middleware",
+    "\\api\\src\\routes",
+    "\\api\\src\\utils",
     "\\front-end",
+    "\\front-end\\crud",
+    "\\front-end\\crud\\boards",
     "\\front-end\\src",
+    "\\front-end\\src\\components",
     "\\front-end\\src\\views"
   ],
   "SelectedNode": "\\front-end\\src\\views\\Board.vue",
