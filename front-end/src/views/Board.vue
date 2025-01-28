@@ -5,9 +5,9 @@
 
     <!-- Botões para criar nova lista, novo card, excluir o board e compartilhar o board -->
     <div class="buttons-container">
-      <v-btn color="primary" @click="openListForm">Criar Lista</v-btn>
-      <v-btn color="primary" @click="openCardForm">Criar Card</v-btn>
-      <v-btn color="secondary" @click="openEditBoardForm">Editar Board</v-btn>
+        <v-btn color="primary" @click="openListForm">Criar Lista</v-btn>
+        <v-btn color="primary" @click="openCardForm">Criar Card</v-btn>
+        <v-btn color="secondary" @click="openEditBoardForm">Editar Board</v-btn>
       <v-btn color="error" @click="deleteBoard">Excluir Board</v-btn>
       <v-btn color="primary" @click="toggleShareForm">Compartilhar Board</v-btn>
     </div>
@@ -21,7 +21,7 @@
       <transition-group name="fade" tag="div" class="lists-wrapper">
         <template v-for="(list, index) in lists" :key="list._id">
           <List
-            :list="list"
+            :list="list" 
             :boardId="board._id"
             @listRemoved="handleListRemoved"
           />
@@ -45,6 +45,7 @@
         :board="board"
         @cardCreated="handleCardCreated"
         @close="showCardForm = false"
+        
       />
     </v-dialog>
 
@@ -261,9 +262,10 @@ export default {
       toggleShareForm,
       handleBoardShared,
       showEditBoardForm,
-      openEditBoardForm,
       handleBoardUpdated,
       boardId, // Certifique-se de que boardId está sendo retornado
+      openEditBoardForm,
+      handleBoardUpdated,
     };
   },
 };

@@ -16,7 +16,8 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-// Registrar novo usuário
+
+// Registrar novo usu�rio
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -30,21 +31,28 @@ router.post('/register', async (req, res) => {
 
 // Login do usuário
 router.post('/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email }).select('+password');
-    if (!user) {
-      return res.status(401).json({ message: 'Usuario nao encontrado a partir do email' });
+    try {
+        const { email, password } = req.body;
+
+        // Buscar o usu�rio no banco de dados, incluindo o campo 'password'
+        const user = await User.findOne({ email }).select('+password');
+        console.log(user);
+        if (!user) {
+            return res.status(401).json({ message: 'Usuario nao encontrado a partir do email' });
+        }
+
+        // Usar o m�todo 'correctPassword' para comparar as senhas
+        const isPasswordCorrect = await user.correctPassword(password, user.password);
+        if (!isPasswordCorrect) {
+            return res.status(401).json({ message: 'Email ou senha incorretos' });
+        }
+
+        // Gerar token JWT
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        res.status(200).json({ token });
+    } catch (error) {
+        res.status(500).json({ message: 'Erro ao logar', error: error.message });
     }
-    const isPasswordCorrect = await user.correctPassword(password, user.password);
-    if (!isPasswordCorrect) {
-      return res.status(401).json({ message: 'Email ou senha incorretos' });
-    }
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    res.status(200).json({ token });
-  } catch (error) {
-    res.status(500).json({ message: 'Erro ao logar', error: error.message });
-  }
 });
 
 // Logout
@@ -60,9 +68,14 @@ router.post('/forgot-password', async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'Usuário não encontrado.' });
     }
+        // Criar token para redefini��o de senha
+
     const resetToken = jwt.sign({ id: user._id }, process.env.JWT_RESET_SECRET, { expiresIn: '1h' });
-    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
-    await transporter.sendMail({
+    // Enviar email com o link de redefini��o de senha
+        const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+
+        await transporter.sendMail({
+
       from: "trabalhodsw@gmail.com",
       to: email,
       subject: 'Redefinição de Senha',
@@ -72,9 +85,11 @@ router.post('/forgot-password', async (req, res) => {
         <a href="${resetLink}">${resetLink}</a>
       `,
     });
-    res.status(200).json({ message: 'Email de redefinição de senha enviado com sucesso.' });
-  } catch (error) {
-    res.status(500).json({ message: 'Erro ao processar redefinição de senha.', error: error.message });
+
+    res.status(200).json({ message: 'Email de redefini��o de senha enviado com sucesso.' });
+    } catch (error) {
+
+    res.status(500).json({ message: 'Erro ao processar redefini��o de senha.', error: error.message });
   }
 });
 
@@ -87,7 +102,11 @@ router.post('/reset-password', async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'Usuário não encontrado.' });
     }
-    user.password = newPassword;
+      console.log(user);
+      console.log(user.password);
+      console.log(newPassword);
+      // Atualizar a senha do usu�rio
+      user.password = newPassword;
     await user.save();
     res.status(200).json({ message: 'Senha redefinida com sucesso.' });
   } catch (error) {
@@ -97,23 +116,36 @@ router.post('/reset-password', async (req, res) => {
 
 // Mudar a senha
 router.post("/change-password", authenticateToken, async (req, res) => {
-  try {
-    const { currentPassword, newPassword } = req.body;
-    const userId = req.user.id;
-    const user = await User.findById(userId).select("+password");
-    if (!user) {
-      return res.status(404).json({ message: "Usuário não encontrado." });
+    try {
+        console.log('0');
+        const { currentPassword, newPassword } = req.body;
+        console.log('0,5');
+        const userId = req.user.id; // Supondo que o middleware de autentica��o adiciona `req.user`
+        console.log('1');
+        const user = await User.findById(userId).select("+password");
+        console.log('2');
+        if (!user) {
+            return res.status(404).json({ message: "Usu�rio n�o encontrado." });
+        }
+        console.log('3');
+        const isPasswordCorrect = await bcrypt.compare(
+            currentPassword,
+            user.password
+        );
+        console.log('4');
+        if (!isPasswordCorrect) {
+            return res.status(401).json({ message: "Senha atual incorreta." });
+        }
+        console.log('5');
+        user.password = newPassword;
+        await user.save();
+        console.log('6');
+        res.status(200).json({ message: "Senha alterada com sucesso." });
+    } catch (error) {
+        res
+            .status(500)
+            .json({ message: "Erro ao alterar senha.", error: error.message });
     }
-    const isPasswordCorrect = await bcrypt.compare(currentPassword, user.password);
-    if (!isPasswordCorrect) {
-      return res.status(401).json({ message: "Senha atual incorreta." });
-    }
-    user.password = newPassword;
-    await user.save();
-    res.status(200).json({ message: "Senha alterada com sucesso." });
-  } catch (error) {
-    res.status(500).json({ message: "Erro ao alterar senha.", error: error.message });
-  }
 });
 
 export default router;
