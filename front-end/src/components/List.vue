@@ -2,52 +2,55 @@
   <div class="list">
     <!-- Título da Lista -->
     <div class="list-header">
-      <h3 @dblclick="editListMode = true" v-if="!editListMode">{{ list.title }}</h3>
+      <h3 @dblclick="editListMode = true" v-if="!editListMode" class="list-title">
+        {{ list.title }}
+      </h3>
       <v-text-field
         v-else
         v-model="tempTitle"
         dense
         outlined
         label="Editar Lista"
+        class="edit-title-input"
         @keyup.enter="saveTitle"
         @blur="saveTitle"
       ></v-text-field>
 
-      <!-- Botão de editar lista -->
-      <v-btn icon @click="editListMode = true">
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-
-      <!-- Botão de remover lista -->
-      <v-btn icon color="red" @click="removeList">
-        <v-icon>mdi-delete</v-icon>
-      </v-btn>
+      <!-- Botões de ação -->
+      <div class="action-buttons">
+        <v-btn class="edit-btn" outlined @click="editListMode = true">
+          Editar
+        </v-btn>
+        <v-btn class="delete-btn" outlined color="red" @click="removeList">
+          Excluir
+        </v-btn>
+      </div>
     </div>
 
     <!-- Exibição de Cards -->
     <div class="cards-container">
       <div v-for="card in list.cards" :key="card._id" class="card">
         <p>{{ card.nome }}</p>
-        <!-- Botão de editar card -->
-        <v-btn icon @click="editCard(card)">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-
-        <!-- Botão de excluir card -->
-        <v-btn icon color="red" @click="deleteCard(card._id)">
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
+        <div class="card-buttons">
+          <v-btn class="edit-btn" outlined @click="editCard(card)">
+            Editar
+          </v-btn>
+          <v-btn class="delete-btn" outlined color="red" @click="deleteCard(card._id)">
+            Excluir
+          </v-btn>
+        </div>
       </div>
     </div>
 
     <!-- Botão para adicionar novo card -->
-    <v-btn block color="blue" text @click="addNewCard">+ Adicionar Card</v-btn>
+    <v-btn block class="add-card-btn" color="blue" text @click="addNewCard">
+      + Adicionar Card
+    </v-btn>
   </div>
 </template>
 
 <script>
 import api from "@/services/api"; // Importando a instância configurada do Axios
-import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 export default {
   name: "List",
@@ -136,22 +139,60 @@ export default {
 </script>
 
 <style scoped>
+/* Estilo da lista */
 .list {
   background-color: #f4f5f7;
-  border-radius: 8px;
-  width: 300px;
+  border-radius: 12px;
+  width: 500px;
   padding: 16px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
 }
 
+/* Cabeçalho da lista */
 .list-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+.list-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+  cursor: pointer;
+}
+
+.edit-title-input {
+  flex: 1;
+}
+
+/* Botões de ação */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.v-btn {
+  border-radius: 8px;
+  text-transform: none;
+  font-weight: 500;
+}
+
+/* Botões específicos */
+.edit-btn {
+  color: #1976d2;
+  border-color: #1976d2;
+}
+
+.delete-btn {
+  color: #d32f2f;
+  border-color: #d32f2f;
+}
+
+/* Container de cards */
 .cards-container {
   margin-top: 16px;
   display: flex;
@@ -159,21 +200,34 @@ export default {
   gap: 8px;
 }
 
+/* Estilo dos cards */
 .card {
   background-color: #ffffff;
-  border-radius: 4px;
-  padding: 8px;
+  border-radius: 8px;
+  padding: 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card p {
-  margin: 0;
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.v-btn {
-  min-width: 32px;
+/* Botões dentro dos cards */
+.card-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+/* Botão de adicionar card */
+.add-card-btn {
+  margin-top: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-radius: 8px;
 }
 </style>
