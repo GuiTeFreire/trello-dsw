@@ -1,103 +1,168 @@
 <template>
   <div class="board">
-    <!-- Exemplo: Nome ou título do quadro -->
     <h1>{{ boardTitle }}</h1>
+    <br>
 
-    <!-- Botão para criar nova lista -->
-    <button @click="createList">Criar Lista</button>
+    <!-- Botões para criar nova lista, novo card e excluir o board -->
+    <div class="buttons-container">
+      <v-btn color="primary" @click="openListForm">Criar Lista</v-btn>
+      <v-btn color="primary" @click="openCardForm">Criar Card</v-btn>
+      <v-btn color="error" @click="deleteBoard">Excluir Board</v-btn>
+    </div>
 
-    <!-- DRAGGABLE: para reordenar as listas -->
-    <draggable
-      v-model="lists"
-      class="lists-container"
-      @end="onDragEnd"
-      :options="{ animation: 200 }"
-    >
+    <!-- SortableJS: para reordenar as listas -->
+    <div ref="listsContainer" class="lists-container">
       <!-- Cada item do array 'lists' será renderizado com o componente List.vue -->
-      <transition-group name="fade" tag="div">
-        <List
-          v-for="(list, index) in lists"
-          :key="list._id"
-          :list="list"
-          @listRemoved="handleListRemoved"
-        />
+      <transition-group name="fade" tag="div" class="lists-wrapper">
+        <template v-for="(list, index) in lists" :key="list._id">
+          <List
+            :list="list"
+            @listRemoved="handleListRemoved"
+          />
+        </template>
       </transition-group>
-    </draggable>
+    </div>
+
+    <!-- Componente de formulário de lista -->
+    <formulario-lista
+      v-if="showListForm"
+      :controlador="controlador"
+      :board="board"
+      @listCreated="handleListCreated"
+    />
+
+    <!-- Componente de formulário de card dentro de um modal -->
+    <v-dialog v-model="showCardForm" max-width="600px">
+      <formulario-card
+        :controlador="controlador"
+        :board="board"
+        @cardCreated="handleCardCreated"
+      />
+    </v-dialog>
   </div>
 </template>
 
 <script>
-/**
- * Board.vue (singular):
- *  1. Captura 'boardId' via Vue Router
- *  2. Carrega listas do back-end
- *  3. Permite criar, editar e remover listas
- *  4. Usa vue-draggable para reorganizar listas
- */
-
 import { ref, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
-import draggable from 'vuedraggable';
-import List from '@/components/List.vue';       // componente filho
-import api from '@/services/api';              // instância axios
+import { useRoute, useRouter } from 'vue-router';
+import Sortable from 'sortablejs';
+import List from '@/components/List.vue';
+import api from '@/services/api';
+import formularioLista from '../../crud/lists/list-form.js';
+import formularioCard from '../../crud/cards/cards-form.js';
+import criaControlador from '../../crud/utils/crud-controller.js';
 
 export default {
   name: 'Board',
-  components: { draggable, List },
+  components: { List, formularioLista, formularioCard },
   setup() {
-    // PEGA O boardId DA ROTA
     const route = useRoute();
-    const boardId = route.params.id; // Ex.: /board/:id
-    
-    // DADOS
-    const boardTitle = ref(''); // Título do quadro
+    const router = useRouter();
+    const boardId = route.params.id;
+    const board = ref({});
+    const boardTitle = ref('');
     const lists = ref([]);
+    const showListForm = ref(false);
+    const showCardForm = ref(false);
+    const controlador = criaControlador();
+    const listsContainer = ref(null);
 
-    /**
-     * Carrega o quadro e suas listas
-     * Ajuste conforme suas rotas de back-end:
-     *   - GET /boards/:boardId -> dados do quadro (incluindo seu título)
-     *   - GET /lists/board/:boardId -> as listas desse quadro
-     */
     const loadBoard = async () => {
       try {
-        // Carrega dados do quadro (ex.: título)
-        const boardResponse = await api.get(`/boards/${boardId}`);
+        const token = localStorage.getItem('token'); // Obtém o token do localStorage
+        const boardResponse = await api.get(`/api/boards/${boardId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Passa o token no header
+          },
+        });
+        board.value = boardResponse.data;
         boardTitle.value = boardResponse.data.title;
 
-        // Carrega listas relacionadas a esse quadro
-        const listsResponse = await api.get(`/lists/board/${boardId}`);
-        lists.value = listsResponse.data;        
+        const listsResponse = await api.get(`/api/lists/board/${boardId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Passa o token no header
+          },
+        });
+        lists.value = listsResponse.data;
       } catch (error) {
         console.error('Erro ao carregar dados do quadro:', error);
       }
     };
 
-    /**
-     * Cria uma nova lista associada ao quadro
-     */
-    const createList = async () => {
-      try {
-        const newList = {
-          title: 'Nova Lista',
-          boardId: boardId,
-        };
-        const response = await api.post('/lists', newList);
-        lists.value.push(response.data);
-      } catch (error) {
-        console.error('Erro ao criar lista:', error);
-      }
+    const openListForm = () => {
+      console.log('Abrindo formulário de criação de lista'); // Log para depuração
+      controlador.painelFormulario = {
+        prepara: formularioLista.methods.prepara.bind({
+          controlador,
+          list: {
+            _id: '',
+            title: '',
+            boardId: boardId, // Certifique-se de que o boardId está sendo atribuído aqui
+            position: lists.value.length,
+            cards: [],
+          },
+        }),
+      };
+      controlador.insere({
+        _id: '',
+        title: '',
+        boardId: boardId, // Certifique-se de que o boardId está sendo atribuído aqui
+        position: lists.value.length,
+        cards: [],
+      });
+      showListForm.value = true;
     };
 
-    /**
-     * Dispara quando o usuário termina de arrastar e soltar uma lista
-     * Precisamos atualizar a "position" de cada lista no back-end
-     */
+    const openCardForm = () => {
+      controlador.painelFormulario = {
+        prepara: formularioCard.methods.prepara.bind({
+          controlador,
+          board: board.value,
+          card: {
+            _id: '',
+            nome: '',
+            usuario: '',
+            descricao: '',
+            quadro: boardId,
+            coluna: '',
+            dataInicio: '',
+            dataFim: '',
+          },
+        }),
+      };
+      controlador.insere({
+        _id: '',
+        nome: '',
+        usuario: '',
+        descricao: '',
+        quadro: boardId,
+        coluna: '',
+        dataInicio: '',
+        dataFim: '',
+      });
+      showCardForm.value = true;
+    };
+
+    const handleListCreated = (listId) => {
+      showListForm.value = false;
+      loadBoard();
+    };
+
+    const handleCardCreated = (cardId) => {
+      showCardForm.value = false;
+      loadBoard();
+    };
+
     const onDragEnd = async () => {
       for (let i = 0; i < lists.value.length; i++) {
         try {
-          await api.put(`/lists/${lists.value[i]._id}`, {
+          const token = localStorage.getItem('token'); // Obtém o token do localStorage
+          await api.put(`/api/lists/${lists.value[i]._id}`, {
             position: i,
+          }, {
+            headers: {
+              Authorization: `Bearer ${token}`, // Passa o token no header
+            },
           });
         } catch (error) {
           console.error('Erro ao atualizar posição da lista:', error);
@@ -105,26 +170,49 @@ export default {
       }
     };
 
-    /**
-     * Quando o componente List.vue emite 'listRemoved',
-     * removemos a lista do array local
-     */
     const handleListRemoved = (listId) => {
       lists.value = lists.value.filter(list => list._id !== listId);
     };
 
-    // Ao montar o componente, carregamos os dados
+    const deleteBoard = async () => {
+      try {
+        const token = localStorage.getItem('token'); // Obtém o token do localStorage
+        await api.delete(`/api/boards/${boardId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Passa o token no header
+          },
+        });
+        router.push('/boards'); // Redireciona para a lista de boards após a exclusão
+      } catch (error) {
+        console.error('Erro ao excluir o board:', error);
+      }
+    };
+
     onMounted(() => {
       loadBoard();
+
+      // Inicializar SortableJS
+      Sortable.create(listsContainer.value, {
+        animation: 200,
+        onEnd: onDragEnd,
+      });
     });
 
-    // Retorna as variáveis e funções para uso no template
     return {
+      board,
       boardTitle,
       lists,
-      createList,
+      openListForm,
+      openCardForm,
+      showListForm,
+      showCardForm,
+      controlador,
+      handleListCreated,
+      handleCardCreated,
+      listsContainer,
       onDragEnd,
       handleListRemoved,
+      deleteBoard,
     };
   },
 };
@@ -137,18 +225,48 @@ export default {
   padding: 16px;
 }
 
-.board button {
+.buttons-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
   margin-bottom: 16px;
 }
 
-/* Container das listas lado a lado */
 .lists-container {
   display: flex;
-  flex-direction: row;
+  overflow-x: auto;
+  padding-bottom: 16px;
+}
+
+.lists-wrapper {
+  display: flex;
   gap: 16px;
 }
 
-/* Transição suave para adicionar/remover listas */
+.list {
+  background-color: #f4f5f7;
+  border-radius: 3px;
+  width: 272px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(9,30,66,.25);
+  margin-bottom: 8px;
+  padding: 16px; /* Aumentar o padding para tornar o card mais quadrado */
+  width: 240px; /* Definir uma largura fixa */
+  height: 240px; /* Definir uma altura fixa */
+  cursor: pointer;
+}
+
+.card:hover {
+  background-color: #f0f0f0;
+}
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity 0.5s;
 }

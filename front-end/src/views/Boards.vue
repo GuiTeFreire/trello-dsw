@@ -2,6 +2,9 @@
   <div class="boards">
     <h1>Meus Quadros</h1>
 
+    <!-- Botão para criar novo quadro -->
+    <button @click="openBoardForm">Criar novo quadro</button>
+
     <div class="boards-container">
       <div
         class="board-card"
@@ -12,6 +15,13 @@
         <h3>{{ board.title }}</h3>
       </div>
     </div>
+
+    <!-- Componente de formulário de quadro -->
+    <formulario-board
+      v-if="showBoardForm"
+      :controlador="controlador"
+      @boardCreated="handleBoardCreated"
+    />
   </div>
 </template>
 
@@ -19,12 +29,17 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '@/services/api';
+import formularioBoard from '../../crud/boards/board-form.js'; // Importa o componente de formulário de board
+import criaControlador from '../../crud/utils/crud-controller.js'; // Importa o controlador de boards
 
 export default {
   name: 'Boards',
+  components: { formularioBoard },
   setup() {
     const userBoards = ref([]);
     const router = useRouter();
+    const showBoardForm = ref(false); // Controle de exibição do formulário de board
+    const controlador = criaControlador(); // Cria o controlador de boards
 
     // Carregar lista de quadros do usuário
     const loadUserBoards = async () => {
@@ -35,7 +50,6 @@ export default {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.headers);
         userBoards.value = response.data;
       } catch (error) {
         console.error('Erro ao carregar quadros do usuário', error);
@@ -47,6 +61,39 @@ export default {
       router.push({ name: 'Board', params: { id: boardId } });
     };
 
+    // Abre o formulário de criação de quadro
+    const openBoardForm = () => {
+      console.log('Abrindo formulário de criação de quadro'); // Log para depuração
+      controlador.painelFormulario = {
+        prepara: formularioBoard.methods.prepara.bind({
+          controlador,
+          board: {
+            _id: '',
+            title: '',
+            backgroundColor: '',
+            textColor: '',
+            isFavorite: false,
+            lists: [],
+          },
+        }),
+      };
+      controlador.insere({
+        _id: '',
+        title: '',
+        backgroundColor: '',
+        textColor: '',
+        isFavorite: false,
+        lists: [],
+      });
+      showBoardForm.value = true;
+    };
+
+    // Lida com a criação do quadro e redireciona para o novo quadro
+    const handleBoardCreated = (boardId) => {
+      showBoardForm.value = false;
+      router.push({ name: 'Board', params: { id: boardId } });
+    };
+
     onMounted(() => {
       loadUserBoards();
     });
@@ -54,6 +101,10 @@ export default {
     return {
       userBoards,
       openBoard,
+      openBoardForm,
+      showBoardForm,
+      controlador,
+      handleBoardCreated,
     };
   },
 };
