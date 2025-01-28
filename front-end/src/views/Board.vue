@@ -1,13 +1,13 @@
 <template>
-  <div class="board">
+  <div class="board" :style="{ backgroundColor: board.backgroundColor, color: board.textColor }">
     <h1>{{ boardTitle }}</h1>
     <br>
 
     <!-- Botões para criar nova lista, novo card, excluir o board e compartilhar o board -->
     <div class="buttons-container">
-        <v-btn color="primary" @click="openListForm">Criar Lista</v-btn>
-        <v-btn color="primary" @click="openCardForm">Criar Card</v-btn>
-        <v-btn color="secondary" @click="openEditBoardForm">Editar Board</v-btn>
+      <v-btn color="primary" @click="openListForm">Criar Lista</v-btn>
+      <v-btn color="primary" @click="openCardForm">Criar Card</v-btn>
+      <v-btn color="secondary" @click="openEditBoardForm">Editar Board</v-btn>
       <v-btn color="error" @click="deleteBoard">Excluir Board</v-btn>
       <v-btn color="primary" @click="toggleShareForm">Compartilhar Board</v-btn>
     </div>
@@ -21,9 +21,10 @@
       <transition-group name="fade" tag="div" class="lists-wrapper">
         <template v-for="(list, index) in lists" :key="list._id">
           <List
-            :list="list" 
+            :list="list"
             :boardId="board._id"
             @listRemoved="handleListRemoved"
+            @editCard="openEditCardForm"
           />
         </template>
       </transition-group>
@@ -41,11 +42,19 @@
     <!-- Componente de formulário de card dentro de um modal -->
     <v-dialog v-model="showCardForm" max-width="600px">
       <formulario-card
+        v-if="!isEditingCard"
         :controlador="controlador"
         :board="board"
         @cardCreated="handleCardCreated"
         @close="showCardForm = false"
-        
+      />
+      <formulario-card-editar
+        v-else
+        :controlador="controlador"
+        :board="board"
+        :card="selectedCard"
+        @cardUpdated="handleCardUpdated"
+        @close="showCardForm = false"
       />
     </v-dialog>
 
@@ -69,13 +78,14 @@ import List from '@/components/List.vue';
 import api from '@/services/api';
 import formularioLista from '../../crud/lists/list-form.js';
 import formularioCard from '../../crud/cards/cards-form.js';
+import formularioCardEditar from '../../crud/cards/card-edit-form.js';
 import criaControlador from '../../crud/utils/crud-controller.js';
 import BoardEditForm from '../../crud/boards/board-edit-form.js';
 import ShareBoard from '@/components/ShareBoard.vue';
 
 export default {
   name: 'Board',
-  components: { List, formularioLista, formularioCard, ShareBoard, BoardEditForm },
+  components: { List, formularioLista, formularioCard, formularioCardEditar, ShareBoard, BoardEditForm },
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -89,6 +99,8 @@ export default {
     const controlador = criaControlador();
     const listsContainer = ref(null);
     const showEditBoardForm = ref(false);
+    const isEditingCard = ref(false);
+    const selectedCard = ref(null);
 
     const openEditBoardForm = () => {
       showEditBoardForm.value = true;
@@ -147,6 +159,7 @@ export default {
     };
 
     const openCardForm = () => {
+      isEditingCard.value = false;
       controlador.painelFormulario = {
         prepara: formularioCard.methods.prepara.bind({
           controlador,
@@ -176,12 +189,31 @@ export default {
       showCardForm.value = true;
     };
 
+    const openEditCardForm = (card) => {
+      isEditingCard.value = true;
+      selectedCard.value = card;
+      controlador.painelFormulario = {
+        prepara: formularioCardEditar.methods.prepara.bind({
+          controlador,
+          board: board.value,
+          card: { ...card },
+        }),
+      };
+      controlador.edita(card);
+      showCardForm.value = true;
+    };
+
     const handleListCreated = (listId) => {
       showListForm.value = false;
       loadBoard();
     };
 
     const handleCardCreated = (cardId) => {
+      showCardForm.value = false;
+      loadBoard();
+    };
+
+    const handleCardUpdated = (cardId) => {
       showCardForm.value = false;
       loadBoard();
     };
@@ -249,12 +281,14 @@ export default {
       lists,
       openListForm,
       openCardForm,
+      openEditCardForm,
       showListForm,
       showCardForm,
       showShareForm,
       controlador,
       handleListCreated,
       handleCardCreated,
+      handleCardUpdated,
       listsContainer,
       onDragEnd,
       handleListRemoved,
@@ -262,10 +296,11 @@ export default {
       toggleShareForm,
       handleBoardShared,
       showEditBoardForm,
-      handleBoardUpdated,
-      boardId, // Certifique-se de que boardId está sendo retornado
       openEditBoardForm,
       handleBoardUpdated,
+      boardId, // Certifique-se de que boardId está sendo retornado
+      isEditingCard,
+      selectedCard,
     };
   },
 };

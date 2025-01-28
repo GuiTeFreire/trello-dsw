@@ -41,11 +41,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Botão para adicionar novo card -->
-    <v-btn block class="add-card-btn" color="blue" text @click="addNewCard">
-      + Adicionar Card
-    </v-btn>
   </div>
 </template>
 
@@ -117,22 +112,10 @@ export default {
     },
 
     /**
-     * Adiciona um novo card (exemplo simplificado)
-     */
-    addNewCard() {
-      const newCard = {
-        _id: Date.now().toString(),
-        nome: "Novo Card",
-      };
-      this.list.cards.push(newCard);
-    },
-
-    /**
      * Edita um card (exemplo: abrir modal de edição)
      */
     editCard(card) {
-      console.log("Editar card:", card);
-      // Lógica para abrir um modal ou uma nova tela para editar o card
+      this.$emit("editCard", card);
     },
   },
 };
@@ -221,13 +204,5 @@ export default {
 .card-buttons {
   display: flex;
   gap: 8px;
-}
-
-/* Botão de adicionar card */
-.add-card-btn {
-  margin-top: 16px;
-  font-weight: bold;
-  text-transform: uppercase;
-  border-radius: 8px;
 }
 </style>

@@ -48,6 +48,23 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.put('/:id', async (req, res) => {
+    try {
+        const { nome, descricao, coluna, dataInicio, dataFim } = req.body;
+        const card = await Card.findByIdAndUpdate(
+            req.params.id,
+            { nome, descricao, coluna, dataInicio, dataFim },
+            { new: true }
+        );
+        if (!card) {
+            return res.status(404).json({ message: "Card não encontrado." });
+        }
+        res.json({ message: "Card atualizado com sucesso.", card });
+    } catch (err) {
+        res.status(500).json({ error: "Erro ao atualizar o card." });
+    }
+});
+
 router.delete('/:id', async (req, res) => {
     try {
         const card = await Card.findById(req.params.id);

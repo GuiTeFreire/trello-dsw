@@ -15,7 +15,22 @@
                    cols="12" sm="6" md="4" lg="3">
                 <v-card class="ma-3 elevation-5"
                         @click="openBoard(board._id)">
-                    <v-card-title class="headline">{{ board.title }}</v-card-title>
+                    <v-card-title class="headline">
+                      {{ board.title }}
+                      <svg
+                        v-if="board.isFavorite"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="yellow"
+                        width="24px"
+                        height="24px"
+                        class="star-icon"
+                      >
+                        <path
+                          d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                        />
+                      </svg>
+                    </v-card-title>
                 </v-card>
             </v-col>
         </v-row>
@@ -117,6 +132,12 @@ export default {
     .headline {
         font-size: 1.25rem; /* Ajusta o tamanho da fonte para os títulos dos cards */
         font-weight: bold; /* Torna o título do card mais destacado */
+        display: flex;
+        align-items: center;
+    }
+
+    .star-icon {
+        margin-left: 8px;
     }
 
     .display-1 {
