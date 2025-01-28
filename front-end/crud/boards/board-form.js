@@ -57,34 +57,39 @@ export default defineComponent({
             </v-col>
 
             <!-- Seleção de cores de fundo -->
-            <v-col cols="12" sm="6">
-                <v-select
-                    v-model="board.backgroundColor"
-                    :item-props="true"
-                    :items="colorOptions"
-                    item-text="label"
-                    item-value="value"
-                    label="Cor de Fundo"
-                    required
-                ></v-select>
-                </v-col>
+          <v-col cols="12" sm="6">
+            <v-select
+                v-model="board.backgroundColor"
+                :items="colorOptions"
+                item-title="label"
+                item-value="value"
+                label="Cor de Fundo"
+                required
+                >
+                <template v-slot:selection="data">
+                <div :style="{ backgroundColor: data.item.value, padding: '5px', borderRadius: '5px', color: getContrastColor(data.item.value) }">
+                    {{ data.item.label }}
+                </div>
+                </template>
+            </v-select>
+          </v-col>
 
-                <v-col cols="12" sm="6">
-                <v-select
-                    v-model="board.textColor"
-                    :items="textColorOptions"
-                    item-text="label"
-                    item-value="value"
-                    label="Cor do Texto"
-                    required
-                ></v-select>
-                </v-col>
+          <!-- Seleção de cores do texto -->
+          <v-col cols="12" sm="6">
+            <v-select
+              v-model="board.textColor"
+              :items="textColorOptions"
+              item-title="label"
+              item-value="value"
+              label="Cor do Texto"
+              required
+            ></v-select>
+          </v-col>
 
-
-            <!-- Checkbox para Favorito -->
-            <v-col cols="12">
-              <v-checkbox v-model="board.isFavorite" label="Favorito"></v-checkbox>
-            </v-col>
+          <!-- Checkbox para Favorito -->
+          <v-col cols="12">
+            <v-checkbox v-model="board.isFavorite" label="Favorito"></v-checkbox>
+          </v-col>
           </v-row>
         </v-container>
       </v-card-text>
