@@ -11,7 +11,11 @@ function criaControlador() {
         itemSelecionado: {},
 
         lista: function () {
-            this.painelLista.atualizaLista();
+            if (this.painelLista && typeof this.painelLista.atualizaLista === 'function') {
+                this.painelLista.atualizaLista();
+            } else {
+                console.error('painelLista ou atualizaLista não está definido');
+            }
             this.apresentandoPainelLista = true;
             this.apresentandoPainelFormulario = false;
             this.apresentandoPainelRemocao = false;
@@ -19,7 +23,11 @@ function criaControlador() {
 
         insere: function (item) {
             this.itemSelecionado = item;
-            this.painelFormulario.prepara();
+            if (this.painelFormulario && typeof this.painelFormulario.prepara === 'function') {
+                this.painelFormulario.prepara();
+            } else {
+                console.error('painelFormulario ou prepara não está definido');
+            }
             this.apresentandoPainelLista = false;
             this.apresentandoPainelFormulario = true;
             this.apresentandoPainelRemocao = false;
@@ -27,7 +35,11 @@ function criaControlador() {
 
         edita: function (item) {
             this.itemSelecionado = item;
-            this.painelFormulario.prepara();
+            if (this.painelFormulario && typeof this.painelFormulario.prepara === 'function') {
+                this.painelFormulario.prepara();
+            } else {
+                console.error('painelFormulario ou prepara não está definido');
+            }
             this.apresentandoPainelLista = false;
             this.apresentandoPainelFormulario = true;
             this.apresentandoPainelRemocao = false;

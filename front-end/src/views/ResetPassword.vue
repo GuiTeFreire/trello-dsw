@@ -1,6 +1,6 @@
 ﻿<template>
     <v-container class="d-flex align-center justify-center" style="height: 100vh;">
-        <v-card class="pa-8" max-width="400">
+        <v-card class="pa-8" width="600">
             <v-card-title>Redefinir Senha</v-card-title>
             <v-card-text>
                 <v-form @submit.prevent="resetPassword">
@@ -17,6 +17,9 @@
                     <v-btn type="submit" class="mt-4" block color="primary">
                         Redefinir Senha
                     </v-btn>
+                    <v-card-actions class="d-flex flex-column">
+                        <router-link to="/login" class="mt-2">Página de login</router-link>
+                    </v-card-actions>
                 </v-form>
                 <v-alert v-if="message" type="info" class="mt-4">
                     {{ message }}
@@ -61,3 +64,12 @@ export default {
   },
 };
 </script>
+<style scoped>
+    .mt-2 {
+        margin-top: 8px;
+        text-decoration: none;
+        color: #1976D2;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+</style>

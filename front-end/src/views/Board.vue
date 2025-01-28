@@ -7,9 +7,13 @@
     <div class="buttons-container">
       <v-btn color="primary" @click="openListForm">Criar Lista</v-btn>
       <v-btn color="primary" @click="openCardForm">Criar Card</v-btn>
+      <v-btn color="secondary" @click="openEditBoardForm">Editar Board</v-btn>
       <v-btn color="error" @click="deleteBoard">Excluir Board</v-btn>
-      <v-btn color="primary" @click="openShareDialog">Compartilhar Board</v-btn>
+      <v-btn color="primary" @click="toggleShareForm">Compartilhar Board</v-btn>
     </div>
+
+    <!-- Formulário de compartilhamento de quadro -->
+    <share-board v-if="showShareForm" :boardId="boardId" @shared="handleBoardShared" @close="toggleShareForm" />
 
     <!-- SortableJS: para reordenar as listas -->
     <div ref="listsContainer" class="lists-container">
@@ -18,6 +22,7 @@
         <template v-for="(list, index) in lists" :key="list._id">
           <List
             :list="list"
+            :boardId="board._id"
             @listRemoved="handleListRemoved"
           />
         </template>
@@ -30,6 +35,7 @@
       :controlador="controlador"
       :board="board"
       @listCreated="handleListCreated"
+      @close="showListForm = false"
     />
 
     <!-- Componente de formulário de card dentro de um modal -->
@@ -38,20 +44,24 @@
         :controlador="controlador"
         :board="board"
         @cardCreated="handleCardCreated"
+        @close="showCardForm = false"
       />
     </v-dialog>
 
-    <!-- Componente de compartilhamento de quadro -->
-    <share-board
-      :boardId="boardId"
-      :showDialog.sync="showShareDialog"
-      @shared="handleBoardShared"
-    />
+    <!-- Modal para formulário de edição do board -->
+    <v-dialog v-model="showEditBoardForm" max-width="600px">
+      <board-edit-form
+        :controlador="controlador"
+        :board="board"
+        @boardUpdated="handleBoardUpdated"
+        @close="showEditBoardForm = false"
+      />
+    </v-dialog>
   </div>
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Sortable from 'sortablejs';
 import List from '@/components/List.vue';
@@ -59,23 +69,35 @@ import api from '@/services/api';
 import formularioLista from '../../crud/lists/list-form.js';
 import formularioCard from '../../crud/cards/cards-form.js';
 import criaControlador from '../../crud/utils/crud-controller.js';
+import BoardEditForm from '../../crud/boards/board-edit-form.js';
 import ShareBoard from '@/components/ShareBoard.vue';
 
 export default {
   name: 'Board',
-  components: { List, formularioLista, formularioCard, ShareBoard },
+  components: { List, formularioLista, formularioCard, ShareBoard, BoardEditForm },
   setup() {
     const route = useRoute();
     const router = useRouter();
-    const boardId = route.params.id;
+    const boardId = route.params.id; // Certifique-se de que boardId está sendo obtido corretamente
     const board = ref({});
     const boardTitle = ref('');
     const lists = ref([]);
     const showListForm = ref(false);
     const showCardForm = ref(false);
-    const showShareDialog = ref(false);
+    const showShareForm = ref(false);
     const controlador = criaControlador();
     const listsContainer = ref(null);
+    const showEditBoardForm = ref(false);
+
+    const openEditBoardForm = () => {
+      showEditBoardForm.value = true;
+    };
+
+    const handleBoardUpdated = (updatedBoard) => {
+      board.value = updatedBoard;
+      boardTitle.value = updatedBoard.title;
+      showEditBoardForm.value = false;
+    };
 
     const loadBoard = async () => {
       try {
@@ -198,13 +220,17 @@ export default {
       }
     };
 
-    const openShareDialog = () => {
-      showShareDialog.value = true;
+    const toggleShareForm = () => {
+      showShareForm.value = !showShareForm.value;
     };
 
     const handleBoardShared = (sharedData) => {
       console.log('Quadro compartilhado com sucesso:', sharedData);
     };
+
+    watch(showShareForm, (newValue) => {
+      console.log('showShareForm atualizado:', newValue); // Log para depuração
+    });
 
     onMounted(() => {
       loadBoard();
@@ -224,7 +250,7 @@ export default {
       openCardForm,
       showListForm,
       showCardForm,
-      showShareDialog,
+      showShareForm,
       controlador,
       handleListCreated,
       handleCardCreated,
@@ -232,8 +258,12 @@ export default {
       onDragEnd,
       handleListRemoved,
       deleteBoard,
-      openShareDialog,
+      toggleShareForm,
       handleBoardShared,
+      showEditBoardForm,
+      openEditBoardForm,
+      handleBoardUpdated,
+      boardId, // Certifique-se de que boardId está sendo retornado
     };
   },
 };

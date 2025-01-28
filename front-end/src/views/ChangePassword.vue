@@ -1,6 +1,6 @@
 ﻿<template>
     <v-container class="d-flex align-center justify-center" style="height: 100vh;">
-        <v-card class="pa-8" max-width="400">
+        <v-card class="pa-8" width="600">
             <v-card-title>Alterar Senha</v-card-title>
             <v-card-text>
                 <v-form @submit.prevent="changePassword">

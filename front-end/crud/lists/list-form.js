@@ -46,44 +46,48 @@ export default defineComponent({
     `,
 
     methods: {
-    prepara(boardId) {
-        this.errorMessage = '';
-        this.titulo = this.list._id === '' ? 'Nova Lista' : 'Editar Lista';
-    },
-
-    retornaParametroURL() {
-        const url = window.location.href;
-        const parts = url.split('/');
-        return parts[parts.length - 1];
-      },
-
-    async salvaLista() {
-        const url = this.list._id ? `http://localhost:4331/api/lists/${this.list._id}` : 'http://localhost:4331/api/lists';
-        const method = this.list._id ? 'put' : 'post';
-        const token = localStorage.getItem('token'); // Obtém o token do localStorage
-        const boardId = this.retornaParametroURL();
-        this.list.boardId = boardId;
-        console.log(this.list);
-
-        try {
-            const response = await axios({
-                method,
-                url,
-                data: this.list,
-                headers: {
-                    Authorization: `Bearer ${token}`, // Passa o token no header
-                },
-            });
-
+        prepara(boardId) {
             this.errorMessage = '';
-            this.$emit('listCreated', response.data._id);
-        } catch (error) {
-            this.errorMessage = error.response?.data?.error || 'Erro ao salvar a lista.';
-        }
-    },
+            this.titulo = this.list._id === '' ? 'Nova Lista' : 'Editar Lista';
+        },
 
-    retornaLista() {
-        this.controlador.lista();
+        retornaParametroURL() {
+            const url = window.location.href;
+            const parts = url.split('/');
+            return parts[parts.length - 1];
+        },
+
+        async salvaLista() {
+            const url = this.list._id ? `http://localhost:4331/api/lists/${this.list._id}` : 'http://localhost:4331/api/lists';
+            const method = this.list._id ? 'put' : 'post';
+            const token = localStorage.getItem('token'); // Obtém o token do localStorage
+            const boardId = this.retornaParametroURL();
+            this.list.boardId = boardId;
+            console.log(this.list);
+
+            try {
+                const response = await axios({
+                    method,
+                    url,
+                    data: this.list,
+                    headers: {
+                        Authorization: `Bearer ${token}`, // Passa o token no header
+                    },
+                });
+
+                this.errorMessage = '';
+                this.$emit('listCreated', response.data._id);
+            } catch (error) {
+                this.errorMessage = error.response?.data?.error || 'Erro ao salvar a lista.';
+            }
+        },
+
+        retornaLista() {
+            if (this.controlador && typeof this.controlador.lista === 'function') {
+                this.controlador.lista();
+            } else {
+                console.error('controlador ou lista não está definido');
+            }
+        }
     }
-}
 });

@@ -3,7 +3,7 @@
     <v-toolbar-title class="text-h6 font-weight-bold">Trello Clone</v-toolbar-title>
     <v-spacer />
     <v-btn
-      v-for="(page, index) in pages"
+      v-for="(page, index) in pages"  
       :key="index"
       text
       :to="page.path"
@@ -13,15 +13,16 @@
     >
       {{ page.name }}
     </v-btn>
+    <v-btn @click="logout" color="white">Logout</v-btn>
   </v-app-bar>
 </template>
 
 <script>
 export default {
+  name: 'Navbar',
   data() {
     return {
       pages: [
-        { name: 'Home', path: '/' },
         { name: 'Boards', path: '/boards' },
         { name: 'Profile', path: '/profile' },
       ],
@@ -32,7 +33,10 @@ export default {
     setActivePage(index) {
       this.activePage = index;
     },
-  },
+    logout() {
+      this.$router.push('/logout'); // Redireciona para a rota de logout
+    }
+  }
 };
 </script>
 

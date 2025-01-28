@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="showDialog" @input="updateDialog" max-width="600px">
+  <div class="share-board">
     <v-card>
       <v-card-title>
         <span class="headline">Compartilhar Quadro</span>
@@ -21,7 +21,7 @@
         <v-btn color="blue darken-1" text @click="shareBoard">Compartilhar</v-btn>
       </v-card-actions>
     </v-card>
-  </v-dialog>
+  </div>
 </template>
 
 <script>
@@ -32,10 +32,6 @@ export default {
   props: {
     boardId: {
       type: String,
-      required: true,
-    },
-    showDialog: {
-      type: Boolean,
       required: true,
     },
   },
@@ -66,11 +62,14 @@ export default {
       }
     },
     closeDialog() {
-      this.$emit('update:showDialog', false);
-    },
-    updateDialog(value) {
-      this.$emit('update:showDialog', value);
+      this.$emit('close');
     },
   },
 };
 </script>
+
+<style scoped>
+.share-board {
+  margin-top: 20px;
+}
+</style>

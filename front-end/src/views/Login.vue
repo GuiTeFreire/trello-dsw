@@ -1,9 +1,10 @@
-﻿<template>
+﻿@qu<template>
     <v-container class="d-flex align-center justify-center" style="height: 100vh;">
         <v-card class="pa-8" width="600">
             <v-card-title>Login</v-card-title>
             <v-card-subtitle>Entre com suas credenciais para acessar.</v-card-subtitle>
             <v-card-text>
+                <h2 class="app-title">Aplicação Trello</h2> <!-- Adiciona o título da aplicação -->
                 <v-form @submit.prevent="processLogin">
                     <v-text-field v-model="form.email"
                                   label="E-mail"
@@ -89,5 +90,12 @@ export default {
 
     .mt-2:hover {
         text-decoration: underline;
+    }
+
+    .app-title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        font-weight: bold;
     }
 </style>
