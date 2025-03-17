@@ -10,7 +10,7 @@ router.use(authenticateToken);
 
 router.get('/', async (req, res) => {
     try {
-        const boards = await Board.find().populate('lists');
+        const boards = await Board.find({ owner: req.user.id }).populate('lists');
         res.json(boards);
     } catch (error) {
         console.error("Erro ao buscar os boards:", error);

@@ -78,7 +78,7 @@ import List from '@/components/List.vue';
 import api from '@/services/api';
 import formularioLista from '../../crud/lists/list-form.js';
 import formularioCard from '../../crud/cards/cards-form.js';
-import formularioCardEditar from '../../crud/cards/card-edit-form.js';
+import formularioCardEditar from '../../crud/cards/card-edit-form.js'; // Certifique-se de que o componente está importado
 import criaControlador from '../../crud/utils/crud-controller.js';
 import BoardEditForm from '../../crud/boards/board-edit-form.js';
 import ShareBoard from '@/components/ShareBoard.vue';
