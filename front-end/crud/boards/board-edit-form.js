@@ -9,8 +9,25 @@ export default defineComponent({
   },
   data() {
     return {
+
+      colorOptions: [
+        { label: 'Azul Claro', value: '#90caf9' },
+        { label: 'Azul Escuro', value: '#1565c0' },
+        { label: 'Verde Claro', value: '#a5d6a7' },
+        { label: 'Verde Escuro', value: '#2e7d32' },
+        { label: 'Amarelo', value: '#fff59d' },
+        { label: 'Laranja', value: '#ffab91' },
+        { label: 'Cinza Claro', value: '#e0e0e0' },
+        { label: 'Cinza Escuro', value: '#424242' },
+      ],
+      textColorOptions: [
+        { label: 'Preto', value: '#000000' },
+        { label: 'Branco', value: '#ffffff' },
+        { label: 'Cinza Escuro', value: '#424242' },
+      ],
       boardData: { ...this.board }, // Cópia dos dados do board
       errorMessage: '',
+
     };
   },
   template: `
@@ -29,14 +46,22 @@ export default defineComponent({
                 label="Título"
                 required
               ></v-text-field>
-              <v-text-field
+              <v-select
                 v-model="boardData.backgroundColor"
+                :items="colorOptions"
+                item-title="label"
+                item-value="value"
                 label="Cor de Fundo"
-              ></v-text-field>
-              <v-text-field
+                required
+              ></v-select>
+              <v-select
                 v-model="boardData.textColor"
+                :items="textColorOptions"
+                item-title="label"
+                item-value="value"
                 label="Cor do Texto"
-              ></v-text-field>
+                required
+              ></v-select>
               <v-checkbox
                 v-model="boardData.isFavorite"
                 label="Favorito"
