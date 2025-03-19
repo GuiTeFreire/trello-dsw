@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "nodemailer": "^6.9.16"
+    "nodemailer": "^6.9.16",
+    "sortablejs": "^1.15.6",
+    "vuedraggable": "^4.1.0"
   }
 }

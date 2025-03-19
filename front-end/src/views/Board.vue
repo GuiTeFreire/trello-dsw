@@ -15,20 +15,23 @@
     <!-- Formulário de compartilhamento de quadro -->
     <share-board v-if="showShareForm" :boardId="boardId" @shared="handleBoardShared" @close="toggleShareForm" />
 
-    <!-- SortableJS: para reordenar as listas -->
-    <div ref="listsContainer" class="lists-container">
-      <!-- Cada item do array 'lists' será renderizado com o componente List.vue -->
-      <transition-group name="fade" tag="div" class="lists-wrapper">
-        <template v-for="(list, index) in lists" :key="list._id">
-          <List
-            :list="list"
-            :boardId="board._id"
-            @listRemoved="handleListRemoved"
-            @editCard="openEditCardForm"
-          />
-        </template>
-      </transition-group>
-    </div>
+    <!-- Draggable para reordenar as listas -->
+    <draggable
+      v-model="lists"
+      group="lists"
+      class="lists-container"
+      item-key="_id"
+      @end="onDragEnd"
+    >
+      <template #item="{ element: list }">
+        <List
+          :list="list"
+          :boardId="board._id"
+          @listRemoved="handleListRemoved"
+          @editCard="openEditCardForm"
+        />
+      </template>
+    </draggable>
 
     <!-- Componente de formulário de lista -->
     <formulario-lista
@@ -73,23 +76,24 @@
 <script>
 import { ref, onMounted, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import Sortable from 'sortablejs';
+import Draggable from 'vuedraggable';
+console.log('Draggable:', Draggable);
 import List from '@/components/List.vue';
 import api from '@/services/api';
 import formularioLista from '../../crud/lists/list-form.js';
 import formularioCard from '../../crud/cards/cards-form.js';
-import formularioCardEditar from '../../crud/cards/card-edit-form.js'; // Certifique-se de que o componente está importado
+import formularioCardEditar from '../../crud/cards/card-edit-form.js';
 import criaControlador from '../../crud/utils/crud-controller.js';
 import BoardEditForm from '../../crud/boards/board-edit-form.js';
 import ShareBoard from '@/components/ShareBoard.vue';
 
 export default {
   name: 'Board',
-  components: { List, formularioLista, formularioCard, formularioCardEditar, ShareBoard, BoardEditForm },
+  components: {Draggable, List, formularioLista, formularioCard, formularioCardEditar, ShareBoard, BoardEditForm },
   setup() {
     const route = useRoute();
     const router = useRouter();
-    const boardId = route.params.id; // Certifique-se de que boardId está sendo obtido corretamente
+    const boardId = route.params.id;
     const board = ref({});
     const boardTitle = ref('');
     const lists = ref([]);
@@ -97,7 +101,6 @@ export default {
     const showCardForm = ref(false);
     const showShareForm = ref(false);
     const controlador = criaControlador();
-    const listsContainer = ref(null);
     const showEditBoardForm = ref(false);
     const isEditingCard = ref(false);
     const selectedCard = ref(null);
@@ -114,10 +117,10 @@ export default {
 
     const loadBoard = async () => {
       try {
-        const token = localStorage.getItem('token'); // Obtém o token do localStorage
+        const token = localStorage.getItem('token');
         const boardResponse = await api.get(`/api/boards/${boardId}`, {
           headers: {
-            Authorization: `Bearer ${token}`, // Passa o token no header
+            Authorization: `Bearer ${token}`,
           },
         });
         board.value = boardResponse.data;
@@ -125,24 +128,26 @@ export default {
 
         const listsResponse = await api.get(`/api/lists/board/${boardId}`, {
           headers: {
-            Authorization: `Bearer ${token}`, // Passa o token no header
+            Authorization: `Bearer ${token}`,
           },
         });
         lists.value = listsResponse.data;
+
+        // Log para verificar as posições das listas
+        console.log('Listas carregadas:', lists.value);
       } catch (error) {
         console.error('Erro ao carregar dados do quadro:', error);
       }
     };
 
     const openListForm = () => {
-      console.log('Abrindo formulário de criação de lista'); // Log para depuração
       controlador.painelFormulario = {
         prepara: formularioLista.methods.prepara.bind({
           controlador,
           list: {
             _id: '',
             title: '',
-            boardId: boardId, // Certifique-se de que o boardId está sendo atribuído aqui
+            boardId: boardId,
             position: lists.value.length,
             cards: [],
           },
@@ -151,7 +156,7 @@ export default {
       controlador.insere({
         _id: '',
         title: '',
-        boardId: boardId, // Certifique-se de que o boardId está sendo atribuído aqui
+        boardId: boardId,
         position: lists.value.length,
         cards: [],
       });
@@ -219,19 +224,25 @@ export default {
     };
 
     const onDragEnd = async () => {
+      // Atualizar as posições localmente
       for (let i = 0; i < lists.value.length; i++) {
-        try {
-          const token = localStorage.getItem('token'); // Obtém o token do localStorage
-          await api.put(`/api/lists/${lists.value[i]._id}`, {
-            position: i,
+          lists.value[i].position = i;
+      }
+  
+      console.log('Listas atualizadas:', lists.value); // Log para depuração
+  
+      try {
+          const token = localStorage.getItem('token');
+          await api.put('/api/lists/reorder', {
+              lists: lists.value,
           }, {
-            headers: {
-              Authorization: `Bearer ${token}`, // Passa o token no header
-            },
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
           });
-        } catch (error) {
-          console.error('Erro ao atualizar posição da lista:', error);
-        }
+          console.log('Posições das listas atualizadas no backend.');
+      } catch (error) {
+          console.error('Erro ao atualizar posição das listas:', error.response?.data || error);
       }
     };
 
@@ -241,13 +252,13 @@ export default {
 
     const deleteBoard = async () => {
       try {
-        const token = localStorage.getItem('token'); // Obtém o token do localStorage
+        const token = localStorage.getItem('token');
         await api.delete(`/api/boards/${boardId}`, {
           headers: {
-            Authorization: `Bearer ${token}`, // Passa o token no header
+            Authorization: `Bearer ${token}`,
           },
         });
-        router.push('/boards'); // Redireciona para a lista de boards após a exclusão
+        router.push('/boards');
       } catch (error) {
         console.error('Erro ao excluir o board:', error);
       }
@@ -262,17 +273,11 @@ export default {
     };
 
     watch(showShareForm, (newValue) => {
-      console.log('showShareForm atualizado:', newValue); // Log para depuração
+      console.log('showShareForm atualizado:', newValue);
     });
 
     onMounted(() => {
       loadBoard();
-
-      // Inicializar SortableJS
-      Sortable.create(listsContainer.value, {
-        animation: 200,
-        onEnd: onDragEnd,
-      });
     });
 
     return {
@@ -289,7 +294,6 @@ export default {
       handleListCreated,
       handleCardCreated,
       handleCardUpdated,
-      listsContainer,
       onDragEnd,
       handleListRemoved,
       deleteBoard,
@@ -298,7 +302,7 @@ export default {
       showEditBoardForm,
       openEditBoardForm,
       handleBoardUpdated,
-      boardId, // Certifique-se de que boardId está sendo retornado
+      boardId,
       isEditingCard,
       selectedCard,
     };
@@ -322,6 +326,7 @@ export default {
 
 .lists-container {
   display: flex;
+  gap: 16px;
   overflow-x: auto;
   padding-bottom: 16px;
 }
@@ -360,5 +365,17 @@ export default {
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+
+.sortable-ghost {
+  opacity: 0.4;
+}
+
+.sortable-chosen {
+  background-color: #e0e0e0;
+}
+
+.sortable-drag {
+  opacity: 0.8;
 }
 </style>

@@ -7,7 +7,12 @@ import Card from '../models/Card.js';
 // 1) Criar lista
 router.post('/', async (req, res) => {
     try {
-        const { title, boardId, position, cards } = req.body;
+        const { title, boardId, cards } = req.body;
+
+        // Obter o número atual de listas no quadro para definir a posição
+        const listCount = await List.countDocuments({ boardId });
+        const position = listCount; // A nova lista será adicionada na última posição
+
         const list = await List.create({ title, boardId, position, cards });
 
         // Adicionar a lista ao campo lists do board correspondente
@@ -16,6 +21,22 @@ router.post('/', async (req, res) => {
         return res.status(201).json(list);
     } catch (error) {
         return res.status(400).json({ error: 'Erro ao criar lista' });
+    }
+});
+
+// 5) Reordenar listas
+router.put('/reorder', async (req, res) => {
+    try {
+        const { lists } = req.body;
+
+        // Atualizar a posição de cada lista
+        for (const list of lists) {
+            await List.findByIdAndUpdate(list._id, { position: list.position });
+        }
+
+        return res.status(200).json({ message: 'Listas reordenadas com sucesso' });
+    } catch (error) {
+        return res.status(400).json({ error: 'Erro ao reordenar listas' });
     }
 });
 
@@ -35,14 +56,23 @@ router.put('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const { title, position, cards } = req.body;
+
+        console.log('Atualizando lista:', { id, title, position, cards }); // Log para depuração
+
         const updated = await List.findByIdAndUpdate(
             id,
             { title, position, cards },
             { new: true }
         ).populate('cards');
+
+        if (!updated) {
+            return res.status(404).json({ error: 'Lista não encontrada' });
+        }
+
         return res.status(200).json(updated);
     } catch (error) {
-        return res.status(400).json({ error: 'Erro ao atualizar lista' });
+        console.error('Erro ao atualizar lista:', error); // Log do erro
+                return res.status(400).json({ error: 'Erro ao atualizar lista' });
     }
 });
 
@@ -65,7 +95,25 @@ router.delete('/:id', async (req, res) => {
         return res.status(200).json({ message: 'Lista removida com sucesso' });
     } catch (error) {
         return res.status(400).json({ error: 'Erro ao remover lista' });
-    }
-});
+    }  }
+);
+
+// router.post('/fix-positions/:boardId', async (req, res) => {
+//     try {
+//         const { boardId } = req.params;
+
+//         // Obter todas as listas do quadro, ordenadas por `createdAt`
+//         const lists = await List.find({ boardId }).sort({ createdAt: 1 });
+
+//         // Atualizar as posições com base na ordem
+//         for (let i = 0; i < lists.length; i++) {
+//             await List.findByIdAndUpdate(lists[i]._id, { position: i });
+//         }
+
+//         return res.status(200).json({ message: 'Posições corrigidas com sucesso' });
+//     } catch (error) {
+//         return res.status(400).json({ error: 'Erro ao corrigir posições das listas' });
+//     }
+// });
 
 export default router;
