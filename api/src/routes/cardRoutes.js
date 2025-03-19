@@ -51,16 +51,34 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const { nome, descricao, coluna, dataInicio, dataFim } = req.body;
-        const card = await Card.findByIdAndUpdate(
+
+        // Buscar o cartão atual para verificar a lista antiga
+        const card = await Card.findById(req.params.id);
+        if (!card) {
+            return res.status(404).json({ message: "Card não encontrado." });
+        }
+
+        // Atualizar o cartão
+        const updatedCard = await Card.findByIdAndUpdate(
             req.params.id,
             { nome, descricao, coluna, dataInicio, dataFim },
             { new: true }
         );
-        if (!card) {
-            return res.status(404).json({ message: "Card não encontrado." });
+
+        // Se a lista (coluna) foi alterada, atualizar as listas
+        if (card.coluna !== coluna) {
+            // Remover o cartão da lista antiga, se existir
+            if (card.coluna) {
+                await List.findByIdAndUpdate(card.coluna, { $pull: { cards: card._id } });
+            }
+
+            // Adicionar o cartão à nova lista
+            await List.findByIdAndUpdate(coluna, { $push: { cards: card._id } });
         }
-        res.json({ message: "Card atualizado com sucesso.", card });
+
+        res.json({ message: "Card atualizado com sucesso.", card: updatedCard });
     } catch (err) {
+        console.error("Erro ao atualizar o card:", err);
         res.status(500).json({ error: "Erro ao atualizar o card." });
     }
 });

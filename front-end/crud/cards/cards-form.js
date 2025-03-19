@@ -44,8 +44,12 @@ export default defineComponent({
                 label="Coluna"
                 required
               ></v-select>
-              <v-text-field v-model="card.dataInicio" label="Data de Início" type="date"></v-text-field>
-              <v-text-field v-model="card.dataFim" label="Data de Fim" type="date"></v-text-field>
+              <!-- Campo Somente Leitura para Data da Última Modificação -->
+              <v-text-field
+                :value="formatDate(card.updatedAt)"
+                label="Última Modificação"
+                readonly
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-container>
@@ -65,6 +69,12 @@ export default defineComponent({
       this.titulo = this.card._id === '' ? 'Novo Card' : 'Editar Card';
       this.card.usuario = this.board.owner; // Define o usuário atual
       this.card.quadro = this.board._id; // Define o quadro atual
+    },
+
+    formatDate(date) {
+      if (!date) return 'N/A';
+      const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+      return new Date(date).toLocaleDateString('pt-BR', options);
     },
 
     async salvaCard() {
@@ -92,7 +102,15 @@ export default defineComponent({
     },
 
     retornaLista() {
-      this.controlador.lista();
+      if (this.controlador && typeof this.controlador.lista === 'function') {
+        this.controlador.lista();
+      } else {
+        console.error('controlador ou lista não está definido');
+      }
+
+      // Fechar o painel do formulário
+      this.controlador.apresentandoPainelFormulario = false;
+      this.$emit('close'); // Emite o evento para fechar o formulário
     },
   }
 });

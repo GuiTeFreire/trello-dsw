@@ -133,7 +133,11 @@ export default {
         });
         lists.value = listsResponse.data;
 
-        // Log para verificar as posições das listas
+        // Configurar o painelLista no controlador
+        controlador.painelLista = {
+          atualizaLista: loadBoard, // Define o método para atualizar a lista
+        };
+
         console.log('Listas carregadas:', lists.value);
       } catch (error) {
         console.error('Erro ao carregar dados do quadro:', error);
@@ -153,6 +157,7 @@ export default {
           },
         }),
       };
+
       controlador.insere({
         _id: '',
         title: '',
@@ -160,7 +165,8 @@ export default {
         position: lists.value.length,
         cards: [],
       });
-      showListForm.value = true;
+
+      showListForm.value = true; // Certifique-se de que o estado é atualizado corretamente
     };
 
     const openCardForm = () => {

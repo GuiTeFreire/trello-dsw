@@ -49,6 +49,15 @@ export default defineComponent({
         prepara(boardId) {
             this.errorMessage = '';
             this.titulo = this.list._id === '' ? 'Nova Lista' : 'Editar Lista';
+
+            // Redefinir os dados da lista
+            this.list = {
+                _id: '',
+                title: '',
+                boardId: boardId || '',
+                position: 0,
+                cards: [],
+            };
         },
 
         retornaParametroURL() {
@@ -88,6 +97,10 @@ export default defineComponent({
             } else {
                 console.error('controlador ou lista não está definido');
             }
+
+            // Fechar o painel do formulário
+            this.controlador.apresentandoPainelFormulario = false;
+            this.$emit('close'); // Emite o evento para fechar o formulário
         }
     }
 });
