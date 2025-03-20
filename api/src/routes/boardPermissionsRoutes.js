@@ -2,6 +2,7 @@ import { Router } from 'express';
 import BoardPermissions from '../models/BoardPermissions.js';
 import Board from '../models/Board.js';
 import authenticateToken from '../middleware/authenticateToken.js';
+import User from '../models/User.js';
 
 const router = Router();
 
@@ -21,31 +22,35 @@ router.get('/:boardId', async (req, res) => {
 // Adicionar uma permissão
 router.post('/:boardId', async (req, res) => {
     try {
+        console.log('1');
         const { email, canEdit } = req.body;
         const board = await Board.findById(req.params.boardId);
-
+        console.log('2');
         // Verificar se o quadro existe
         if (!board) {
             return res.status(404).json({ error: 'Quadro não encontrado.' });
         }
-
+        console.log('3');
         // Verificar se o usuário autenticado é o dono do quadro
         if (board.owner.toString() !== req.user.id) {
             return res.status(403).json({ error: 'Você não tem permissão para compartilhar este quadro.' });
         }
-
+        console.log('4');
         // Buscar o usuário pelo email
-        const user = await User.findOne({ email });
+        console.log(email);
+        const user = await User.findOne({ email: email.trim() });
+        console.log('c')
         if (!user) {
             return res.status(404).json({ error: 'Usuário não encontrado.' });
         }
-
+        console.log('5');
         // Criar ou atualizar a permissão
         const permission = await BoardPermissions.findOneAndUpdate(
             { board: req.params.boardId, user: user._id },
             { canEdit },
             { upsert: true, new: true }
         );
+        console.log('6');
         res.status(201).json(permission);
     } catch (error) {
         res.status(500).json({ error: 'Erro ao adicionar permissão.' });

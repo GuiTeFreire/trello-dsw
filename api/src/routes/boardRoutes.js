@@ -10,8 +10,17 @@ router.use(authenticateToken);
 
 router.get('/', async (req, res) => {
     try {
-        const boards = await Board.find({ owner: req.user.id }).populate('lists');
-        res.json(boards);
+        // Buscar quadros do usuário autenticado
+        const ownedBoards = await Board.find({ owner: req.user.id }).populate('lists');
+
+        // Buscar quadros compartilhados com o usuário
+        const sharedPermissions = await BoardPermissions.find({ user: req.user.id }).populate('board');
+        const sharedBoards = sharedPermissions.map(permission => permission.board);
+
+        // Combinar quadros próprios e compartilhados
+        const allBoards = [...ownedBoards, ...sharedBoards];
+
+        res.json(allBoards);
     } catch (error) {
         console.error("Erro ao buscar os boards:", error);
         res.status(500).json({ error: 'Erro ao buscar boards' });

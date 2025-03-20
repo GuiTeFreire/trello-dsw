@@ -47,7 +47,7 @@ export default {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.post(
-          `http://localhost:4331/api/boardsPermissions/${this.boardId}`,
+          `http://localhost:4331/api/boardPermissionsRoutes/${this.boardId}`,
           { email: this.email, canEdit: this.canEdit },
           {
             headers: {

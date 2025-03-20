@@ -8,6 +8,7 @@ import cardRoutes from './routes/cardRoutes.js';
 import listRoutes from './routes/listRoutes.js';
 import boardRoutes from './routes/boardRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import boardPermissionsRoutes from './routes/boardPermissionsRoutes.js';
 import BoardPermissions from './models/BoardPermissions.js';
 import userRoutes from './routes/userRoutes.js';
 
@@ -35,5 +36,6 @@ app.use('/api/cards', cardRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/boardsPermissions', authenticateToken, BoardPermissions);
 app.use('/api/users', authenticateToken, userRoutes);
+app.use('/api/boardPermissionsRoutes', boardPermissionsRoutes);
 
 export default app;
