@@ -17,8 +17,13 @@ router.get('/', async (req, res) => {
         const sharedPermissions = await BoardPermissions.find({ user: req.user.id }).populate('board');
         const sharedBoards = sharedPermissions.map(permission => permission.board);
 
-        // Combinar quadros próprios e compartilhados
-        const allBoards = [...ownedBoards, ...sharedBoards];
+        // Combinar quadros próprios e compartilhados, removendo duplicados
+        const allBoards = [
+            ...ownedBoards,
+            ...sharedBoards.filter(sharedBoard => 
+                !ownedBoards.some(ownedBoard => ownedBoard._id.equals(sharedBoard._id))
+            ),
+        ];
 
         res.json(allBoards);
     } catch (error) {
