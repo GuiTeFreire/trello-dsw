@@ -13,7 +13,10 @@
     </div>
 
     <!-- Formulário de compartilhamento de quadro -->
-    <share-board v-if="showShareForm" :boardId="boardId" @shared="handleBoardShared" @close="toggleShareForm" />
+    <share-board v-if="showShareForm" 
+    :boardId="boardId" 
+    @shared="handleBoardShared" 
+    @close="toggleShareForm" />
 
     <!-- Draggable para reordenar as listas -->
     <draggable
@@ -27,6 +30,7 @@
         <List
           :list="list"
           :boardId="board._id"
+          :canEdit="board.canEdit"
           @listRemoved="handleListRemoved"
           @editCard="openEditCardForm"
         />
@@ -133,11 +137,7 @@ export default {
         });
         lists.value = listsResponse.data;
 
-        // Configurar o painelLista no controlador
-        controlador.painelLista = {
-          atualizaLista: loadBoard, // Define o método para atualizar a lista
-        };
-
+        console.log('Board carregado:', board.value);
         console.log('Listas carregadas:', lists.value);
       } catch (error) {
         console.error('Erro ao carregar dados do quadro:', error);
@@ -267,6 +267,9 @@ export default {
         router.push('/boards');
       } catch (error) {
         console.error('Erro ao excluir o board:', error);
+        if(error.status == 403){
+          alert("Você nao tem permissão para deletar esse quadro");
+        }
       }
     };
 

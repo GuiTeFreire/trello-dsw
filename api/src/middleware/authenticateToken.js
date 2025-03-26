@@ -1,32 +1,35 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js'; // Importe o modelo User
 
-const authenticateToken = (req, res, next) => {
+const authenticateToken = async (req, res, next) => {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1]; // Assume formato 'Bearer TOKEN'
+    const token = authHeader && authHeader.split(' ')[1];
+
+    console.log('Token recebido:', token);
 
     if (!token) {
-        return res.sendStatus(401); // N�o autorizado se n�o houver token
+        console.error('Token não fornecido');
+        return res.status(401).json({ error: 'Token não fornecido' });
     }
 
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
-        console.log("Decoded ID:", decoded.id);
-        if (err) {
-            return res.sendStatus(403); // Token inv�lido ou expirado
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('Token decodificado:', decoded);
+
+        const user = await User.findById(decoded.id);
+        console.log('Usuário autenticado:', user);
+
+        if (!user) {
+            console.error('Usuário não encontrado');
+            return res.status(404).json({ error: 'Usuário não encontrado' });
         }
 
-        try {
-            const user = await User.findById(decoded.id).select('-password'); // Exclui a senha nos dados retornados
-            if (!user) {
-                return res.sendStatus(404); // Usu�rio n�o encontrado
-            }
-            req.user = user;
-            next();
-        } catch (error) {
-            console.error('Authentication Middleware Error:', error);
-            return res.sendStatus(500); // Erro interno do servidor
-        }
-    });
+        req.user = user;
+        next();
+    } catch (error) {
+        console.error('Erro ao verificar o token:', error);
+        return res.status(403).json({ error: 'Token inválido ou expirado' });
+    }
 };
 
 export default authenticateToken;

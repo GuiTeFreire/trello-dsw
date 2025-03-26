@@ -81,23 +81,32 @@ export default defineComponent({
       this.card.usuario = this.board.owner; // Define o usuário atual
       this.card.quadro = this.board._id; // Define o quadro atual
 
-      const url = this.card._id ? `http://localhost:4331/api/cards/${this.card._id}` : 'http://localhost:4331/api/cards';
+      const url = this.card._id
+          ? `http://localhost:4331/api/cards/${this.card._id}`
+          : 'http://localhost:4331/api/cards';
       const method = this.card._id ? 'put' : 'post';
       const token = localStorage.getItem('token'); // Obtém o token do localStorage
-      
+
       try {
-        const response = await axios({
-          method,
-          url,
-          data: this.card,
-          headers: {
-            Authorization: `Bearer ${token}`, // Passa o token no header
-          },
-        });
-        this.errorMessage = '';
-        this.$emit('cardCreated', response.data.card._id);
+          const response = await axios({
+              method,
+              url,
+              data: this.card,
+              headers: {
+                  Authorization: `Bearer ${token}`, // Passa o token no header
+              },
+          });
+          this.errorMessage = '';
+          this.$emit('cardCreated', response.data.card._id);
       } catch (error) {
-        this.errorMessage = error.response?.data?.error || 'Erro ao salvar o card.';
+          console.error('Erro ao salvar o card:', error);
+
+          // Exibir mensagem de erro ao usuário
+          if (error.response?.status === 403) {
+              this.errorMessage = 'Você não tem permissão para criar cards neste quadro.';
+          } else {
+              this.errorMessage = error.response?.data?.error || 'Erro ao salvar o card.';
+          }
       }
     },
 

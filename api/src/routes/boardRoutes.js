@@ -10,24 +10,37 @@ router.use(authenticateToken);
 
 router.get('/', async (req, res) => {
     try {
+        console.log('Iniciando busca de boards para o usuário:', req.user.id);
+
         // Buscar quadros do usuário autenticado
         const ownedBoards = await Board.find({ owner: req.user.id }).populate('lists');
+        console.log('Quadros próprios encontrados:', ownedBoards);
 
         // Buscar quadros compartilhados com o usuário
         const sharedPermissions = await BoardPermissions.find({ user: req.user.id }).populate('board');
-        const sharedBoards = sharedPermissions.map(permission => permission.board);
+        console.log('Permissões compartilhadas encontradas:', sharedPermissions);
+
+        const sharedBoards = sharedPermissions
+            .map(permission => permission.board)
+            .filter(sharedBoard => sharedBoard !== null); // Filtrar boards nulos
+
+        console.log('Quadros compartilhados encontrados:', sharedBoards);
 
         // Combinar quadros próprios e compartilhados, removendo duplicados
         const allBoards = [
             ...ownedBoards,
-            ...sharedBoards.filter(sharedBoard => 
-                !ownedBoards.some(ownedBoard => ownedBoard._id.equals(sharedBoard._id))
+            ...sharedBoards.filter(sharedBoard =>
+                !ownedBoards.some(ownedBoard =>
+                    ownedBoard && sharedBoard && ownedBoard._id.equals(sharedBoard._id) // Verificar nulos
+                )
             ),
         ];
 
+        console.log('Todos os quadros combinados:', allBoards);
+
         res.json(allBoards);
     } catch (error) {
-        console.error("Erro ao buscar os boards:", error);
+        console.error('Erro ao buscar os boards:', error);
         res.status(500).json({ error: 'Erro ao buscar boards' });
     }
 });
@@ -41,15 +54,19 @@ router.get('/:id', async (req, res) => {
         }
 
         // Verificar se o usuário tem permissão para acessar o quadro
-        if (board.owner.toString() !== req.user.id) {
+        let canEdit = false;
+        if (board.owner.toString() === req.user.id) {
+            canEdit = true; // O proprietário sempre pode editar
+        } else {
             const permission = await BoardPermissions.findOne({ board: board._id, user: req.user.id });
-            if (!permission) {
-                return res.status(403).json({ error: 'Acesso negado.' });
+            if (permission && permission.canEdit) {
+                canEdit = true;
             }
         }
 
-        res.json(board);
+        res.json({ ...board.toObject(), canEdit });
     } catch (error) {
+        console.error('Erro ao buscar board:', error);
         res.status(500).json({ error: 'Erro ao buscar board.' });
     }
 });
@@ -86,14 +103,31 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const { title, backgroundColor, textColor, isFavorite, lists } = req.body;
+
+        // Verificar se o usuário é o dono do quadro
+        const board = await Board.findById(req.params.id);
+        if (!board) {
+            return res.status(404).json({ error: 'Board não encontrado' });
+        }
+
+        if (board.owner.toString() !== req.user.id) {
+            // Verificar se o usuário tem permissão de edição
+            const permission = await BoardPermissions.findOne({ board: board._id, user: req.user.id });
+            if (!permission || !permission.canEdit) {
+                return res.status(403).json({ error: 'Você não tem permissão para editar este quadro.' });
+            }
+        }
+
         const updatedBoard = await Board.findByIdAndUpdate(
             req.params.id,
             { title, backgroundColor, textColor, isFavorite, lists },
             { new: true }
         ).populate('lists');
+
         if (!updatedBoard) {
             return res.status(404).json({ error: 'Board não encontrado' });
         }
+
         return res.json(updatedBoard);
     } catch (error) {
         res.status(500).json({ error: 'Erro ao atualizar board' });
@@ -102,10 +136,21 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     try {
-        const board = await Board.findByIdAndDelete(req.params.id);
+        const board = await Board.findById(req.params.id);
         if (!board) {
             return res.status(404).json({ error: 'Board não encontrado' });
         }
+
+        // Verificar se o usuário é o dono do quadro
+        if (board.owner.toString() !== req.user.id) {
+            // Verificar se o usuário tem permissão de edição
+            const permission = await BoardPermissions.findOne({ board: board._id, user: req.user.id });
+            if (!permission || !permission.canEdit) {
+                return res.status(403).json({ error: 'Você não tem permissão para excluir este quadro.' });
+            }
+        }
+
+        await Board.findByIdAndDelete(req.params.id);
         return res.json({ message: 'Board removido com sucesso' });
     } catch (error) {
         res.status(500).json({ error: 'Erro ao remover board' });

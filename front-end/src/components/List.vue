@@ -2,7 +2,7 @@
   <div class="list">
     <!-- Título da Lista -->
     <div class="list-header">
-      <h3 @dblclick="editListMode = true" v-if="!editListMode" class="list-title">
+      <h3 @dblclick="editListMode = canEdit && true" v-if="!editListMode" class="list-title">
         {{ list.title }}
       </h3>
       <v-text-field
@@ -18,10 +18,10 @@
 
       <!-- Botões de ação -->
       <div class="action-buttons">
-        <v-btn class="edit-btn" outlined @click="editListMode = true">
+        <v-btn class="edit-btn" outlined :disabled="!canEdit" @click="editListMode = true">
           Editar
         </v-btn>
-        <v-btn class="delete-btn" outlined color="red" @click="removeList">
+        <v-btn class="delete-btn" outlined color="red" :disabled="!canEdit" @click="removeList">
           Excluir
         </v-btn>
       </div>
@@ -32,10 +32,10 @@
       <div v-for="card in list.cards" :key="card._id" class="card">
         <p>{{ card.nome }}</p>
         <div class="card-buttons">
-          <v-btn class="edit-btn" outlined @click="editCard(card)">
+          <v-btn class="edit-btn" outlined :disabled="!canEdit" @click="editCard(card)">
             Editar
           </v-btn>
-          <v-btn class="delete-btn" outlined color="red" @click="deleteCard(card._id)">
+          <v-btn class="delete-btn" outlined color="red" :disabled="!canEdit" @click="deleteCard(card._id)">
             Excluir
           </v-btn>
         </div>
@@ -58,6 +58,7 @@ export default {
       type: String,
       required: true,
     },
+    canEdit: Boolean, // Nova prop para verificar permissões
   },
   data() {
     return {
@@ -77,13 +78,25 @@ export default {
       }
 
       try {
+        const token = localStorage.getItem('token');
         const response = await api.put(`/api/lists/${this.list._id}`, {
           title: newTitle,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Envia o token no cabeçalho
+          },
         });
         this.list.title = response.data.title;
         this.editListMode = false;
       } catch (error) {
         console.error("Erro ao atualizar título da lista:", error);
+
+        // Exibir mensagem de erro ao usuário
+        if (error.response?.status === 403) {
+          alert('Você não tem permissão para editar esta lista.');
+        } else {
+          alert('Erro ao atualizar a lista. Tente novamente mais tarde.');
+        }
       }
     },
 

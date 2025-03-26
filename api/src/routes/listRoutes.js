@@ -3,24 +3,39 @@ const router = Router();
 import List from '../models/List.js';
 import Board from '../models/Board.js';
 import Card from '../models/Card.js';
+import authenticateToken from '../middleware/authenticateToken.js';
+import BoardPermissions from '../models/BoardPermissions.js';
 
 // 1) Criar lista
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
     try {
         const { title, boardId, cards } = req.body;
 
-        // Obter o número atual de listas no quadro para definir a posição
+        // Verificar se o quadro existe
+        const board = await Board.findById(boardId);
+        if (!board) {
+            return res.status(404).json({ error: 'Quadro não encontrado.' });
+        }
+
+        // Verificar se o usuário é o dono ou tem permissão de edição
+        if (board.owner.toString() !== req.user.id) {
+            const permission = await BoardPermissions.findOne({ board: board._id, user: req.user.id });
+            if (!permission || !permission.canEdit) {
+                return res.status(403).json({ error: 'Você não tem permissão para criar listas neste quadro.' });
+            }
+        }
+
         const listCount = await List.countDocuments({ boardId });
-        const position = listCount; // A nova lista será adicionada na última posição
+        const position = listCount;
 
         const list = await List.create({ title, boardId, position, cards });
 
-        // Adicionar a lista ao campo lists do board correspondente
         await Board.findByIdAndUpdate(boardId, { $push: { lists: list._id } });
 
         return res.status(201).json(list);
     } catch (error) {
-        return res.status(400).json({ error: 'Erro ao criar lista' });
+        console.error('Erro ao criar lista:', error);
+        return res.status(400).json({ error: 'Erro ao criar lista.' });
     }
 });
 
@@ -52,12 +67,29 @@ router.get('/board/:boardId', async (req, res) => {
 });
 
 // 3) Atualizar uma lista
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticateToken, async (req, res) => {
     try {
+        console.log('Usuário autenticado:', req.user);
+
         const { id } = req.params;
         const { title, position, cards } = req.body;
 
-        console.log('Atualizando lista:', { id, title, position, cards }); // Log para depuração
+        const list = await List.findById(id);
+        if (!list) {
+            return res.status(404).json({ error: 'Lista não encontrada' });
+        }
+
+        const board = await Board.findById(list.boardId);
+        if (!board) {
+            return res.status(404).json({ error: 'Board não encontrado' });
+        }
+
+        if (board.owner.toString() !== req.user.id) {
+            const permission = await BoardPermissions.findOne({ board: board._id, user: req.user.id });
+            if (!permission || !permission.canEdit) {
+                return res.status(403).json({ error: 'Você não tem permissão para editar esta lista.' });
+            }
+        }
 
         const updated = await List.findByIdAndUpdate(
             id,
@@ -71,8 +103,8 @@ router.put('/:id', async (req, res) => {
 
         return res.status(200).json(updated);
     } catch (error) {
-        console.error('Erro ao atualizar lista:', error); // Log do erro
-                return res.status(400).json({ error: 'Erro ao atualizar lista' });
+        console.error('Erro ao atualizar lista:', error);
+        return res.status(400).json({ error: 'Erro ao atualizar lista' });
     }
 });
 
