@@ -18,7 +18,7 @@
                     <v-card-title class="headline">
                       {{ board.title }}
                       <svg
-                        v-if="board.isFavorite"
+                        v-if="logFavorite(board.isFavorite)"
                         xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 24 24"
                         fill="yellow"
@@ -62,12 +62,14 @@ export default {
     // Carregar lista de quadros do usuário
     const loadUserBoards = async () => {
       try {
-        const token = localStorage.getItem('token'); 
+        const token = localStorage.getItem('token');
         const response = await api.get('/api/boards', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
+
+        console.log('Quadros carregados:', response.data); // Verificar se isFavorite está correto
         userBoards.value = response.data;
       } catch (error) {
         console.error('Erro ao carregar quadros do usuário', error);
@@ -112,6 +114,30 @@ export default {
       router.push({ name: 'Board', params: { id: boardId } });
     };
 
+    const toggleFavorite = async (board) => {
+      try {
+          const token = localStorage.getItem('token');
+          const response = await api.put(`/api/board-permissions/${board._id}/favorite`, {
+              isFavorite: !board.isFavorite, // Inverte o valor atual
+          }, {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
+          });
+
+          console.log('Resposta do backend:', response.data);
+
+          board.isFavorite = response.data.permission.isFavorite; // Atualiza o estado local
+      } catch (error) {
+          console.error('Erro ao atualizar favorito:', error);
+      }
+    };
+
+    const logFavorite = (isFavorite) => {
+      console.log('Favorite status:', isFavorite);
+      return isFavorite;
+    };
+
     onMounted(() => {
       loadUserBoards();
     });
@@ -123,7 +149,15 @@ export default {
       showBoardForm,
       controlador,
       handleBoardCreated,
+      toggleFavorite,
+      logFavorite,
     };
+  },
+  methods: {
+    logFavorite(isFavorite) {
+      console.log(`Renderizando estrela: ${isFavorite}`);
+      return isFavorite;
+    },
   },
 };
 </script>

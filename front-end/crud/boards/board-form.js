@@ -82,7 +82,10 @@ export default defineComponent({
 
             <!-- Checkbox para Favorito -->
             <v-col cols="12">
-              <v-checkbox v-model="board.isFavorite" label="Favorito"></v-checkbox>
+              <v-checkbox
+                v-model="board.isFavorite"
+                label="Favorito"
+              ></v-checkbox>
             </v-col>
           </v-row>
         </v-container>
@@ -119,8 +122,10 @@ export default defineComponent({
           title: this.board.title,
           backgroundColor: this.board.backgroundColor || '#ffffff',
           textColor: this.board.textColor || '#000000',
-          isFavorite: this.board.isFavorite,
+          isFavorite: this.board.isFavorite, // Certifique-se de que o campo está presente
         };
+
+        console.log('Payload enviado ao backend:', payload);
 
         const response = await axios({
           method,

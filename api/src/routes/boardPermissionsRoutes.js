@@ -57,6 +57,33 @@ router.post('/:boardId', async (req, res) => {
     }
 });
 
+// Atualizar o campo isFavorite para um quadro específico
+router.put('/:boardId/favorite', async (req, res) => {
+    try {
+        const { isFavorite } = req.body;
+
+        console.log('Recebido do frontend:', { boardId: req.params.boardId, userId: req.user.id, isFavorite });
+
+        const permission = await BoardPermissions.findOneAndUpdate(
+            { board: req.params.boardId, user: req.user.id },
+            { isFavorite },
+            { new: true } // Retorna o documento atualizado
+        );
+
+        if (!permission) {
+            console.error('Permissão não encontrada para o quadro:', req.params.boardId);
+            return res.status(404).json({ error: 'Permissão não encontrada para este quadro.' });
+        }
+
+        console.log('Documento atualizado no banco de dados:', permission);
+
+        res.json({ message: 'Favorito atualizado com sucesso.', permission });
+    } catch (error) {
+        console.error('Erro ao atualizar favorito:', error);
+        res.status(500).json({ error: 'Erro ao atualizar favorito.' });
+    }
+});
+
 // Remover uma permissão
 router.delete('/:boardId/:userId', async (req, res) => {
     try {

@@ -16,21 +16,42 @@ router.get('/', async (req, res) => {
         const ownedBoards = await Board.find({ owner: req.user.id }).populate('lists');
         console.log('Quadros próprios encontrados:', ownedBoards);
 
+        // Buscar permissões para os quadros próprios
+        const ownedBoardPermissions = await BoardPermissions.find({
+            board: { $in: ownedBoards.map(board => board._id) },
+            user: req.user.id,
+        });
+
+        console.log('Permissões para quadros próprios:', ownedBoardPermissions);
+
+        const ownedBoardsWithFavorites = ownedBoards.map(board => {
+            const permission = ownedBoardPermissions.find(p => p.board.toString() === board._id.toString());
+            return {
+                ...board.toObject(),
+                isFavorite: permission ? permission.isFavorite || board.isFavorite : board.isFavorite, // Priorizar o valor do modelo Board se não houver permissão
+            };
+        });
+
+        console.log('Quadros próprios com favoritos:', ownedBoardsWithFavorites);
+
         // Buscar quadros compartilhados com o usuário
         const sharedPermissions = await BoardPermissions.find({ user: req.user.id }).populate('board');
         console.log('Permissões compartilhadas encontradas:', sharedPermissions);
 
         const sharedBoards = sharedPermissions
-            .map(permission => permission.board)
-            .filter(sharedBoard => sharedBoard !== null); // Filtrar boards nulos
+            .filter(permission => permission.board !== null) // Filtrar permissões com boards nulos
+            .map(permission => ({
+                ...permission.board.toObject(),
+                isFavorite: permission.isFavorite, // Adicionar o campo isFavorite
+            }));
 
         console.log('Quadros compartilhados encontrados:', sharedBoards);
 
         // Combinar quadros próprios e compartilhados, removendo duplicados
         const allBoards = [
-            ...ownedBoards,
+            ...ownedBoardsWithFavorites,
             ...sharedBoards.filter(sharedBoard =>
-                !ownedBoards.some(ownedBoard =>
+                !ownedBoardsWithFavorites.some(ownedBoard =>
                     ownedBoard && sharedBoard && ownedBoard._id.equals(sharedBoard._id) // Verificar nulos
                 )
             ),
@@ -81,7 +102,7 @@ router.post('/', async (req, res) => {
             title,
             backgroundColor,
             textColor,
-            isFavorite,
+            isFavorite: isFavorite || false, // Certifique-se de que o campo está sendo tratado
             owner,
             lists,
         });
@@ -91,6 +112,7 @@ router.post('/', async (req, res) => {
             board: newBoard._id,
             user: owner,
             canEdit: true, // O dono sempre pode editar
+            isFavorite: isFavorite || false, // Sincronizar com o campo do board
         });
 
         return res.status(201).json(newBoard);
@@ -122,7 +144,7 @@ router.put('/:id', async (req, res) => {
             req.params.id,
             { title, backgroundColor, textColor, isFavorite, lists },
             { new: true }
-        ).populate('lists');
+        );
 
         if (!updatedBoard) {
             return res.status(404).json({ error: 'Board não encontrado' });
@@ -131,6 +153,29 @@ router.put('/:id', async (req, res) => {
         return res.json(updatedBoard);
     } catch (error) {
         res.status(500).json({ error: 'Erro ao atualizar board' });
+    }
+});
+
+router.put('/:id/favorite', authenticateToken, async (req, res) => {
+    try {
+        const { isFavorite } = req.body;
+
+        console.log('Atualizando favorito:', { boardId: req.params.id, userId: req.user.id, isFavorite });
+
+        const permission = await BoardPermissions.findOneAndUpdate(
+            { board: req.params.id, user: req.user.id },
+            { isFavorite },
+            { new: true } // Retorna o documento atualizado
+        );
+
+        if (!permission) {
+            return res.status(404).json({ error: 'Permissão não encontrada para este quadro.' });
+        }
+
+        res.json({ message: 'Favorito atualizado com sucesso.', permission });
+    } catch (error) {
+        console.error('Erro ao atualizar favorito:', error);
+        res.status(500).json({ error: 'Erro ao atualizar favorito.' });
     }
 });
 
