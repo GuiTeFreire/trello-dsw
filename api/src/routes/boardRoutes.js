@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
             const permission = ownedBoardPermissions.find(p => p.board.toString() === board._id.toString());
             return {
                 ...board.toObject(),
-                isFavorite: permission ? permission.isFavorite || board.isFavorite : board.isFavorite, // Priorizar o valor do modelo Board se não houver permissão
+                isFavorite: permission ? permission.isFavorite : false, // Usar o valor de BoardPermissions
             };
         });
 
@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
             .filter(permission => permission.board !== null) // Filtrar permissões com boards nulos
             .map(permission => ({
                 ...permission.board.toObject(),
-                isFavorite: permission.isFavorite || false, // Certifique-se de que o valor de isFavorite é retornado corretamente
+                isFavorite: permission.isFavorite, // Usar o valor de BoardPermissions
             }));
 
         console.log('Quadros compartilhados encontrados:', sharedBoards);
