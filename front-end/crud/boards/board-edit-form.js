@@ -78,21 +78,33 @@ export default defineComponent({
   `,
   methods: {
     async saveBoard() {
-      const token = localStorage.getItem('token');
-      const url = `http://localhost:4331/api/boards/${this.boardData._id}`;
-      try {
-        // Requisição para atualizar o board
-        const response = await axios.put(url, this.boardData, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        this.errorMessage = '';
-        this.$emit('boardUpdated', response.data); // Emite o evento com os dados do board atualizado
-      } catch (error) {
-        this.errorMessage =
-          error.response?.data?.error || 'Erro ao salvar o quadro.';
-      }
+        const token = localStorage.getItem('token');
+        const url = `http://localhost:4331/api/boards/${this.boardData._id}`;
+        try {
+            // Requisição para atualizar o quadro
+            const response = await axios.put(url, this.boardData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            // Atualizar o campo isFavorite separadamente
+            await axios.put(
+                `http://localhost:4331/api/boardPermissionsRoutes/${this.boardData._id}/favorite`,
+                { isFavorite: this.boardData.isFavorite },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            this.errorMessage = '';
+            this.$emit('boardUpdated', response.data); // Emite o evento com os dados do board atualizado
+        } catch (error) {
+            this.errorMessage =
+                error.response?.data?.error || 'Erro ao salvar o quadro.';
+        }
     },
   },
   watch: {

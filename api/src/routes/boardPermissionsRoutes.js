@@ -66,13 +66,13 @@ router.put('/:boardId/favorite', async (req, res) => {
 
         const permission = await BoardPermissions.findOneAndUpdate(
             { board: req.params.boardId, user: req.user.id },
-            { isFavorite },
-            { new: true } // Retorna o documento atualizado
+            { $set: { isFavorite } },
+            { new: true, upsert: true }
         );
 
         if (!permission) {
-            console.error('Permissão não encontrada para o quadro:', req.params.boardId);
-            return res.status(404).json({ error: 'Permissão não encontrada para este quadro.' });
+            console.error('Permissão não encontrada ou não foi possível criar:', req.params.boardId);
+            return res.status(404).json({ error: 'Permissão não encontrada ou não foi possível criar.' });
         }
 
         console.log('Documento atualizado no banco de dados:', permission);

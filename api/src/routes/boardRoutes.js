@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
             .filter(permission => permission.board !== null) // Filtrar permissões com boards nulos
             .map(permission => ({
                 ...permission.board.toObject(),
-                isFavorite: permission.isFavorite, // Adicionar o campo isFavorite
+                isFavorite: permission.isFavorite || false, // Certifique-se de que o valor de isFavorite é retornado corretamente
             }));
 
         console.log('Quadros compartilhados encontrados:', sharedBoards);
